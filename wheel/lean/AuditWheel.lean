@@ -1,0 +1,20 @@
+import WheelExactExponent
+import WheelGroupingOptimum
+import WheelFlatteningRank
+import WheelConicOptima
+import WheelConsequences
+import GraphThreeBlock
+
+#print axioms OAI.LinearAlgebra.SpectralBooks.rectangular_exponent
+#print axioms GraphTensorVerification.spectral_copositive
+#print axioms WheelVerification.triangle_asymptotic_rank_exact
+#print axioms WheelVerification.graph_three_block_rank_lower
+#print axioms WheelVerification.even_wheel_exact_exponent
+#print axioms WheelVerification.odd_wheel_exact_exponent
+#print axioms WheelVerification.wheel_parity_grouping_isGreatest
+#print axioms WheelVerification.even_wheel_conic_optima
+#print axioms WheelVerification.odd_wheel_conic_optima
+#print axioms WheelVerification.exact_wheel_cut_flattening_rank
+#print axioms WheelVerification.wheel_cut_exact
+#print axioms WheelVerification.even_wheel_excess
+#print axioms WheelVerification.odd_wheel_excess
