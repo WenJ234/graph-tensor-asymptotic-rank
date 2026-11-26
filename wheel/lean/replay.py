@@ -10,10 +10,10 @@ out = work / "oleans"
 out.mkdir(exist_ok=True)
 
 def run(argv, **kwargs):
-    return subprocess.run(argv, check=True, text=True, **kwargs)
+    return subprocess.run(argv, check=True, text=True, encoding="utf-8", **kwargs)
 
 def git(path, *args, **kws):
-    return subprocess.run(["git", "-C", str(path), *args], text=True, **kws)
+    return subprocess.run(["git", "-C", str(path), *args], text=True, encoding="utf-8", **kws)
 
 def checkout(path, url, rev):
     path.mkdir(parents=True, exist_ok=True)
@@ -38,7 +38,7 @@ lemmata = work / "lemmata"
 checkout(oai, "https://github.com/openai/math.git", "3344da59991ed94f9ba711217b29c1d760badfa6")
 checkout(lemmata, "https://github.com/ZIB-IOL/lemmata.git", "a20ff2d299b36e7357170ddd584eb4e462e95b06")
 packages = root / ".lake/packages"
-manifest = json.loads((root / "lake-manifest.json").read_text())
+manifest = json.loads((root / "lake-manifest.json").read_text(encoding="utf-8"))
 for p in manifest["packages"]:
     checkout(packages / p["name"].strip("«»"), p["url"], p["rev"])
 fixed = packages / "fixed-point-theorems"
@@ -48,7 +48,7 @@ if git(fixed, "apply", "--reverse", "--check", patch, capture_output=True).retur
     git(fixed, "apply", patch, check=True)
 run(["lake", "--no-cache", "exe", "cache", "get", "Mathlib"])
 env = dict(os.environ)
-env["LEAN_PATH"] = ":".join(map(str, [out, *sorted(packages.glob("*/.lake/build/lib/lean"))]))
+env["LEAN_PATH"] = os.pathsep.join(map(str, [out, *sorted(packages.glob("*/.lake/build/lib/lean"))]))
 seen = set()
 def build(name):
     if name in seen:
@@ -64,14 +64,14 @@ def build(name):
             "Mathlib","Lean","Init","Std","Batteries","Qq","Aesop","Cli","Plausible","ProofWidgets"}:
             return
         raise SystemExit(f"Unresolved import: {name}")
-    for line in re.findall(r"^(?:(?:public|private|meta) )*import (.+)$", src.read_text(), re.M):
+    for line in re.findall(r"^(?:(?:public|private|meta) )*import (.+)$", src.read_text(encoding="utf-8"), re.M):
         for dep in line.split("--")[0].split(): build(dep)
     dest = out / stem.with_suffix(".olean")
     dest.parent.mkdir(parents=True, exist_ok=True)
     args = [] if base == root / "src" else ["-DautoImplicit=false"]
     print("Building", name, flush=True)
     run(["lean", "-j1", *args, "--root="+str(base), "-o", str(dest), str(src)], env=env)
-audit = (root / "AuditWheel.lean").read_text()
+audit = (root / "AuditWheel.lean").read_text(encoding="utf-8")
 for mod in re.findall(r"^import (\S+)", audit, re.M): build(mod)
 result = run(["lean", "-j1", "AuditWheel.lean"], env=env, capture_output=True)
 allowed = {"propext", "Classical.choice", "Quot.sound"}
@@ -82,5 +82,5 @@ for name, axioms in found:
     extra = set(filter(None, map(str.strip, axioms.split(",")))) - allowed
     if extra:
         raise SystemExit(f"{name}: unexpected axioms: {sorted(extra)}")
-(root / "axioms.log").write_text(result.stdout)
+(root / "axioms.log").write_text(result.stdout, encoding="utf-8")
 print(result.stdout, end="")
