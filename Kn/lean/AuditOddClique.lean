@@ -1,0 +1,16 @@
+import OddCliqueBorderRank
+import OddCliquePriceMinimum
+
+#print axioms OAI.LinearAlgebra.SpectralBooks.rectangular_exponent
+#print axioms GraphTensorVerification.completeGraph_eq_wires_dim
+#print axioms OddCliquePaper.grouped_clique_eq_rectangle
+#print axioms OddCliquePaper.grouped_balanced_clique
+#print axioms WheelVerification.integral_rectangular_rank_lower
+#print axioms OddCliquePaper.odd_complete_exact_exponent
+#print axioms OddCliquePaper.k5_ordinary_rank_lower
+#print axioms OddCliquePaper.rank_power_le_of_zariski
+#print axioms OddCliquePaper.k5_asymptoticRank_all_q
+#print axioms OddCliquePaper.k5_border_rank_lower
+#print axioms OddCliquePaper.k5_directed_pricing_upper
+#print axioms OddCliquePaper.k5_price_isGreatest
+#print axioms OddCliquePaper.joint_transport_minimum_attained
