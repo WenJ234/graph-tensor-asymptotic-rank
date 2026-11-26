@@ -1,0 +1,2803 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools,booktabs,array,tabularx}
+\usepackage[margin=25mm,top=23mm,bottom=25mm]{geometry}
+\usepackage{xcolor}
+\usepackage[unicode,bookmarksnumbered]{hyperref}
+\definecolor{inkblue}{RGB}{24,66,96}
+\hypersetup{colorlinks=true,linkcolor=inkblue,citecolor=inkblue,urlcolor=inkblue,
+  pdfauthor={Wen Jiang},pdftitle={The Asymptotic Rank of Weighted Cycle Tensors},
+  pdfsubject={Exact exponents for weighted graph tensors over the complex numbers},
+  pdfkeywords={asymptotic rank, matrix multiplication, graph tensors, copositivity}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Rtil}{\widetilde R}
+\newcommand{\Om}{\Omega}
+\newcommand{\mc}{\operatorname{MaxCut}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\Zhou}{U_{\rm CP}^{\Delta}}
+\allowdisplaybreaks[2]
+\setlength{\emergencystretch}{2em}
+\setcounter{tocdepth}{1}
+\raggedbottom
+\title{\bfseries The Asymptotic Rank of Weighted Cycle Tensors}
+\author{Wen Jiang}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+We determine the asymptotic tensor rank of the graph tensor of a cycle with arbitrary edge dimensions over the complex numbers. Write \(w_i=\log_2 q_i\), \(S=\sum_iw_i\), and let \(\Omega\) denote the rectangular matrix multiplication exponent. An even cycle has exponent \(S\). For an odd cycle the exponent is the largest of the \(n\) values \(\Omega(S-w_i-w_{i+1},w_i,w_{i+1})\). In particular, a three-block grouping that isolates one vertex always attains the exponent. The formula extends continuously to nonnegative real weights and agrees with ordinary tensor-rank growth along integer dimension sequences. The upper bound uses copositivity, the geometry of spectral distances, and exact finite certificates for the remaining continuous parameter ranges. We also identify the optimum over copositively normalized tree metrics for every weighted graph and exhibit a strict gap between the cycle exponent and the copositive pseudometric relaxation.
+\end{abstract}
+\section{The cycle formula}\label{sec:main}
+
+Let the vertices of \(C_n\) be the elements of \(\mathbb Z/n\mathbb Z\). Edge \(i\), joining \(i\) to \(i+1\), carries an independent index \(j_i\in[q_i]=\{1,\ldots,q_i\}\). At vertex \(i\) we keep the two incident indices as a single tensor leg. The resulting complex tensor is
+\[
+ T(q_1,\ldots,q_n)
+ =\sum_{j_1,\ldots,j_n}\bigotimes_{i=1}^n
+       (e_{j_{i-1}}\otimes e_{j_i}),\qquad j_0=j_n .
+\]
+Here \(R\) denotes ordinary tensor rank and \(\boxtimes\) the tensor product with corresponding legs grouped. Submultiplicativity gives
+\(\Rtil(T)=\lim_{k\to\infty}R(T^{\boxtimes k})^{1/k}\).
+Write \(w_i=\log_2 q_i\), \(S=\sum_i w_i\), \(m=\min_i w_i\) and
+\(\Gamma(w)=\log_2\Rtil(T)\).
+
+For \(x\ge y\ge z\ge0\) define the symmetric function \(\Omega\) by
+\begin{equation}\label{eq:rect-main}
+ \Omega(x,y,z)=
+ \begin{cases}
+ x+y+\dfrac{[(x+y)z-xy]_+^2}{4xyz},&z>0,\\[5pt]
+ x+y,&z=0,
+ \end{cases}
+ \qquad [t]_+=\max\{t,0\}.
+\end{equation}
+For an unordered triple we sort its entries before applying this expression. On the strictly curved branch it equals \((xy+yz+zx)^2/(4xyz)\).
+
+\begin{theorem}\label{thm:main}
+For every \(n\ge3\) and every vector of positive integer edge dimensions over \(\mathbb C\),
+\[
+ \boxed{\displaystyle
+ \Gamma(w)=
+ \begin{cases}
+ S, & n\ \text{even},\\[2pt]
+ \max_{1\le i\le n}\Omega(S-w_i-w_{i+1},w_i,w_{i+1}),
+       & n\ \text{odd}.
+ \end{cases}}
+\]
+Indices are cyclic. The same formula holds for every \(w\in\mathbb R_{\ge0}^n\), with the real exponent defined in Proposition~\ref{prop:real}. For odd \(n\), the maximum equals the greatest exponent obtained by grouping the vertices into three blocks.
+\end{theorem}
+
+The entries around the cycle can matter even when the multiset of edge dimensions is fixed. For example, putting the logarithmic weights \(1,1,2,2,2\) in the indicated cyclic order gives \(169/24\). Separating the two unit weights gives \(7\). Both cycles have maximum cut \(7\). Only \(n\) rectangular evaluations are needed to distinguish such arrangements.
+
+The triangle in Theorem~\ref{thm:main} is matrix multiplication itself. For unit weights on an odd cycle the answer is \(G_n=n-1+1/(4(n-2))\). We use this earlier unweighted theorem, including on shorter closed walks \cite{Jiang}. The new upper bound must allow a different price on each cycle edge. Its proof first locates a putative maximizing weight vector and spectral metric, then bounds the deviations along an alternating path. Section~\ref{sec:contacts} gives the optimality conditions. Sections~\ref{sec:geometry} and~\ref{sec:threshold} give the path and diameter bounds, including a bound uniform in the order once \(S/m\ge11\). Sections~\ref{sec:five}, \ref{sec:seven} and~\ref{sec:nine} close the remaining orders. Section~\ref{sec:verification} describes how the finite certificates cover the continuous variables.
+
+\section{Spectral distances and real weights}\label{sec:spectrum}
+
+Let \(E_{uv}(q)\) be a \(q\)-dimensional identity tensor on the two indicated legs, with one-dimensional factors elsewhere. The cycle tensor is the product of its edge tensors. On tensors with a fixed number of legs, a normalized spectral point \(F\) is monotone under local linear maps, additive under direct sums, multiplicative under \(\boxtimes\), and takes the scalar unit to one. Strassen's spectral duality gives \(\Rtil(T)=\max_F F(T)\) \cite{Strassen,Zhou}. Define
+\[
+ d_{uv}=\log_2 F(E_{uv}(2)),\qquad d_{uu}=0 .
+\]
+Restriction to one label and expansion into two simple tensors show \(0\le d_{uv}\le1\). Moving an index through an intermediate leg by contraction proves the triangle inequality. For an integer \(q\ge1\), local truncations compare \(E_{uv}(q)^{\boxtimes k}\) with binary identity tensors of dimensions \(2^{\lfloor k\log_2q\rfloor}\) and \(2^{\lceil k\log_2q\rceil}\). Multiplicativity and division by \(k\) give
+\(\log_2 F(E_{uv}(q))=d_{uv}\log_2q\).
+
+\begin{proposition}\label{prop:real}
+For \(w\in\mathbb R_{\ge0}^n\), define \(\Gamma(w)=\max_F\sum_i w_i d_{i,i+1}\).
+This agrees with the integer-dimension exponent and is convex, positively homogeneous, coordinatewise nondecreasing, and \(1\)-Lipschitz for the \(\ell^1\) norm. Moreover,
+\begin{equation}\label{eq:ray}
+ \Gamma(w)=\lim_{k\to\infty}\frac1k
+   \log_2 R\bigl(T(\lfloor2^{kw_1}\rfloor,\ldots,\lfloor2^{kw_n}\rfloor)\bigr).
+\end{equation}
+Ceilings in place of floors give the same limit. Replacing \(w\) by its coordinatewise lower dyadic-exponent grid approximation \(\lfloor kw\rfloor/k\) changes \(\Gamma\) by at most \(n/k\).
+\end{proposition}
+\begin{proof}
+Duality and multiplicativity prove agreement. The set of spectral points is compact in the topology of pointwise convergence because each coordinate lies in \([0,R(T)]\), and the spectral identities, normalization and monotonicity are closed conditions. Thus the maximum exists. The asserted properties follow by taking the maximum of linear forms with coefficients in \([0,1]\). For the lower bound in \eqref{eq:ray}, use \(R\ge\Rtil\) and convergence of \(k^{-1}\log_2\lfloor2^{kw_i}\rfloor\) to \(w_i\). For the upper bound, fix a positive integer \(s\) and let \(A_s=T((2^{\lceil s w_i\rceil})_i)\). Either rounded tensor in \eqref{eq:ray} is a local restriction of \(A_s^{\boxtimes\lceil k/s\rceil}\). Taking the limsup in \(k\) gives at most \(s^{-1}\log_2\Rtil(A_s)\le\Gamma(w)+n/s\). Let \(s\) increase. The Lipschitz bound also proves the last assertion.
+\end{proof}
+
+We use two constraints on any spectral pseudometric. First, for every collection of nonnegative masses \(t_v\), Zhou's copositivity inequality gives \cite[Lemma 5.1]{Zhou}
+\begin{equation}\label{eq:cp-main}
+ 4\sum_{u<v} t_ut_vd_{uv}\ \le\ \Big(\sum_vt_v\Big)^2 .
+\end{equation}
+Repeated sites are allowed by adding their masses. Second, after identifying sites at distance zero, the finite metric embeds isometrically in a complete geodesic CAT(0) space \cite[Theorem 4.3]{CAT}. Consequently it satisfies Ptolemy's inequality \cite{Ptolemy}
+\begin{equation}\label{eq:pt-main}
+ d_{ac}d_{bd}\le d_{ab}d_{cd}+d_{ad}d_{bc}.
+\end{equation}
+The CAT(0) extension also gives convexity of distance along geodesics and the first variation estimates used below \cite{BH}. The spectral representation permits optimization over a single metric for a fixed objective. A convex average of rotated spectral metrics need not itself come from a spectral point.
+
+\subsection{Cuts, rectangles and closed walks}
+
+Flattening across a bipartition gives matrix rank \(\prod_{e\ {\rm crossing}}q_e\): internal edges give nonzero vectors at their own side, and crossing identities have multiplicative matrix ranks. For even \(n\), an alternating partition makes every edge cross. The elementary tensor expansion has exactly \(\prod_iq_i\) terms. Both arguments persist under powers. On an odd cycle any cut misses an edge, and any prescribed edge can be the only one missed. Hence \(\mc(w)=S-m\). If \(m=0\) this already proves \(\Gamma=S\).
+
+The three-vertex tensor is the structure tensor for multiplying rectangular matrices. The exact rectangular exponent theorem \cite{Rect} gives \eqref{eq:rect-main}. The bridge from arithmetic exponents to ordinary rank uses bilinear rank. In one direction a circuit for a bilinear map can be replaced by a bilinear computation with a constant-factor increase in size by propagating its constant, its two linear, and its bilinear components separately. At each multiplication it is enough to form only the two opposite linear cross-products. This bounds bilinear rank by twice the number of multiplication gates. In the other direction, fix a finite matrix multiplication tensor of rank \(r\). A rank decomposition recursively computes block products with \(r\) calls at each level and a fixed number of block additions and scalar multiplications. Each of the three matrix areas is at most \(r\), by flattening, so \(k\) levels require \(O(k r^k)\) scalar operations, with the implied constant depending on the fixed block. Allowing a fixed tensor power as the block, then taking roots, proves equality of the exponents. Truncation, padding and Proposition~\ref{prop:real} pass to real exponents, or one can first prove equality for integer slopes and extend by homogeneity and continuity. At \(z=0\) a flattening already has exponent \(x+y\).
+
+For a vertex partition into three (possibly empty) blocks, project each internal edge onto one common index value and group the legs in each block. The labels on all edges joining one pair of blocks now form one composite index. The resulting tensor is a rectangle whose three log dimensions are the three cross-block weight totals. Every simple tensor stays simple on grouping. Projections and grouping commute with all Kronecker powers, so each rectangular exponent is a lower bound on \(\Gamma\). Continuity proves the same assertion for real weights.
+
+\begin{proposition}\label{prop:folds}
+The maximum \(L_3(w)\) over all three-block partitions of an odd cycle equals
+\[
+ K(w):=\max_i \Omega(S-w_i-w_{i+1},w_i,w_{i+1}).
+\]
+\end{proposition}
+\begin{proof}
+Isolate the common vertex of two adjacent edges as block \(C\), and alternate \(A,B\) on the remaining even number of vertices. The two edges at \(C\) go to different blocks. This realizes each candidate. A candidate containing a minimum edge gives at least \(S-m\) by flattening.
+
+If some edge is internal, the total crossing weight is at most \(S-m\), an upper bound for the corresponding rectangle. Otherwise let \(k_{AB},k_{AC},k_{BC}\) count the three kinds of edges. Each color class has even boundary size, so the three counts have the same parity. This parity statement holds even in the presence of internal edges. Here the sum is odd, hence all three counts are odd. Relabel the largest weight total \(AB\) and the other totals \(y=AC,\ z=BC\). Oddness of \(k_{AC}\) forces a \(C\)-vertex incident to exactly one \(AC\) edge. Its other edge is of type \(BC\). Their weights \(a,b\) obey \(a\le y,\ b\le z\). The triple \((S-a-b,a,b)\) has the same total, at least as large a largest entry, and at most as large a smallest entry as the original triple. Thus it majorizes the latter. The function \(\Omega\) is symmetric and convex by the spectral representation on three legs. A majorized vector is a convex combination of permutations of its majorant, which proves the claim.
+\end{proof}
+
+We refer to this three-block construction as a \emph{fold}. A separate use of grouping is to bound any closed walk of length \(k\ge3\) on a set of spectral sites. Put the \(C_k\) vertices at the sites visited in order, group repeated sites and append scalar factors at unused sites. The resulting tensor has asymptotic rank at most that of the original \(k\)-cycle. At an unused site, adding a one-dimensional factor preserves ordinary and asymptotic rank. Applying \(F\) now shows that the sum of the weighted walk distances is at most \(\Gamma_{C_k}\) at those weights. For unit weights and \(k\) odd this gives the perimeter bound \(G_k\) from \cite{Jiang}.
+
+In particular, at a maximizing spectral metric, replacing any labels of the original walk by other sites cannot improve its value. On an odd-length arc, replace the interior labels by alternating copies of its endpoints. The endpoint distance is at most the weighted average of its edge distances. If those endpoints realize the diameter and all weights are positive, every edge of the arc realizes that diameter. For odd \(n\), one arc between any two distinct cycle sites has odd length, so a diametral pair may be chosen adjacent. If an odd arc with nonadjacent endpoints has equality in the average, contract it to one edge carrying its total weight. Its objective is preserved, and every three-block partition of the shorter odd cycle extends by alternating its endpoint labels along the arc. The shorter \(L_3\) is consequently at most the original \(L_3\). These arguments also apply when the shorter walk has repeated sites.
+
+\section{Contacts of the rectangular bound}\label{sec:contacts}
+
+Throughout this section $n\ge5$ is odd, $S=\sum_i w_i$, $m=\min_iw_i>0$,
+$K=L_3(w)$ and $\mu=S-K$. Call $(a,b)=(w_i,w_{i+1})$ a
+\emph{winning pair} when $\Omega(X,a,b)=K$, where $X=S-a-b$. We call
+$X$ the ordinary coordinate and $a,b$ the spokes. We distinguish a
+strictly curved rectangular branch from its boundary, where the gradient
+agrees with that of the flat branch.
+
+\subsection{Geometry and derivatives of a contact}
+
+For $x,y,z,h\ge0$ and $B=x+y+z-\Omega(x,y,z)$, one has
+\begin{equation}\label{eq:contact-deficit}
+ B\ge h\quad\Longleftrightarrow\quad
+ \begin{cases}
+ x,y,z\ge h,\\
+ \displaystyle\sum_{\rm cyc}\sqrt{(x-h)(y-h)}\ge h .
+ \end{cases}
+\end{equation}
+To see this, order $x\ge y\ge z$. On $[0,z]$ the difference of the two
+sides of the radical inequality is strictly decreasing. It is nonnegative
+at $z$ precisely when $xy\ge z(x+y)$, precisely the flat case $B=z$.
+In the curved case put $H=xy+yz+zx$ and $\alpha_x=yz/H$, with the
+other two defined cyclically. These numbers sum to one and are at most
+$1/2$. By the rectangular theorem \cite{Rect}, $K'=H^2/(4xyz)$ and
+$4K'\alpha_x(1-\alpha_x)=y+z$. Consequently
+$x-B=K'(1-2\alpha_x)^2$ and $\sum_{\rm cyc}\sqrt{x-B}=\sqrt{K'}$.
+Squaring proves equality in the radical test at $B$. The same proof
+includes contact with the flat branch, and zero coordinates follow directly.
+
+At every curved winning pair, including contact with the flat branch,
+$X>\max(a,b)$. Indeed let the sorted triple be $x\ge y\ge z$. Its
+rectangular correction is at most $z/4$, since $0\le(x+y)z-xy\le yz$.
+As $K\ge S-m$, this gives $z\le 4m/3$. If $X$ were not strictly largest
+then $y\ge X\ge(n-2)m\ge3m$ and $z\ge xy/(x+y)\ge3m/2$.
+Write
+\begin{equation}\label{eq:arms}
+ u=\sqrt{(a-\mu)/K},\quad v=\sqrt{(b-\mu)/K},\quad
+ r=\sqrt{(X-\mu)/K},\quad M=\mu/K .
+\end{equation}
+The preceding calculation gives
+\begin{equation}\label{eq:contact-conic}
+ r+u+v=1,\qquad ru+rv+uv=M,\qquad
+ u+v-u^2-uv-v^2=M .
+\end{equation}
+The coordinates divided by $K$ are $u+vr,v+ur,r+uv$, respectively.
+Differentiation of the curved formula, or logarithmic differentiation of
+$H^2/(4Xab)$, gives the three prices
+\begin{equation}\label{eq:contact-prices}
+ q_a=Ku/a,\qquad q_b=Kv/b,\qquad p=Kr/X .
+\end{equation}
+All ordinary edges have price $p$. On the interior of the curved branch
+$p$ is strictly greater than either spoke price, by $r>\max(u,v)$ and
+the formulas $p=r/(r+uv)$, $q_a=u/(u+vr)$. The derivatives extend to
+the boundary by the squared positive part in the rectangular formula.
+On an active flat branch the smallest coordinate must be $m$ and is a
+single edge, since $X\ge3m$. Its gradient omits this edge and is one
+elsewhere. The flat branch cannot have two equal positive smallest coordinates.
+
+Write $G_n=n-1+1/[4(n-2)]$ and $p_n=1-1/[4(n-2)^2]$.
+Convexity and cyclic averaging give $K\ge G_n S/n$, using the explicit
+equal-weight rectangular lower bound. Thus $M\le n/G_n-1<1/4$.
+For $z=u+v$, one has $z<1/2$. Otherwise $1/2\le z\le2/3$, and
+$u,v\le1-z$ gives $uv\ge(1-z)(2z-1)$, hence
+$M\ge(1-z)(3z-1)\ge1/4$. It follows that
+\begin{equation}\label{eq:contact-caps}
+ z\le\alpha=\frac{1-\sqrt{1-4M}}2,\quad
+ a,b\le t_\mu=K\alpha,\qquad a+b\le\mu+t_\mu .
+\end{equation}
+Indeed $z(1-z)\le M$, $K\alpha^2=t_\mu-\mu$, and $u^2+v^2\le z^2$.
+For fixed $S$, $t_\mu=2\mu/[1+\sqrt{1-4\mu/(S-\mu)}]$ increases with
+$\mu$. Finally,
+\begin{equation}\label{eq:ordinary-price}
+ p\ge p_n .
+\end{equation}
+In fact $uv/r=M/(1-z)-z$ decreases with $z<1/2$. Since
+$M\le z-3z^2/4$, this ratio is largest at
+$z_*=2(1-\sqrt{1-3M})/3$, where $u=v$. The maximum
+$z_*^2/[4(1-z_*)]$ increases with $M$. Evaluating $1/(1+uv/r)$ at
+$M=n/G_n-1$, attained by $(X,a,b)=(n-2,1,1)$, gives \eqref{eq:ordinary-price}.
+
+\subsection{Stationarity and reduction to faces}
+
+Fix $S=1$ and consider the maximum, over the closed weight simplex and the
+compact spectral distance set, of $D_w-K$, where $D_w=\sum_iw_i d_i$.
+Suppose its value $\delta$ is positive. Weights on its boundary have
+bipartite support and $K=S$, so a maximizing weight is interior. Keeping
+the realizing metric fixed and differentiating on the tangent space of
+the simplex gives
+\begin{equation}\label{eq:global-normal}
+ d_i=\delta+\sum_f\lambda_f\partial_i\Omega_f(w),
+ \qquad \lambda_f\ge0,\quad\sum_f\lambda_f=1 .
+\end{equation}
+Here $f$ ranges over winning pairs and a flat derivative can be written
+as its cut. Indeed the subdifferential of the finite maximum of convex
+differentiable functions is the convex hull of their active gradients.
+The multiplier normal to the simplex is common to all coordinates.
+Euler's identity, evaluated against $w$, identifies it with $\delta$.
+Rescaling $w$ afterwards preserves the identity and this value of
+$\delta$ (the gap divided by the new $S$).
+
+Mark position $i$ whenever $w_i=1-K$. Also mark both spokes of every
+winning rectangular pair on the curved branch or its boundary. One may
+choose a maximizing weight with at most one unmarked position. More
+generally every positive weight in the simplex is a convex combination
+of such terminal weights, with the same $K$ throughout. If at least two
+positions are unmarked, transfer a variable amount from one to the other
+while retaining all constraints $\Omega_f\le K$. The feasible amounts
+form a closed bounded interval by convexity. All coordinates remain at
+least $1-K>0$ by the cut bounds. The starting point is interior in this
+interval because marked cut coordinates and marked pairs stay fixed, all strict
+inequalities are open, and an active strictly flat branch locally agrees
+with its marked cut. A fixed cut or fixed pair also keeps $L_3=K$ all
+along the interval. At either endpoint some new mark must appear, by the
+same local argument. Iterating gives the asserted finite decomposition.
+At a joint maximum for fixed $d$, linearity forces each endpoint used in
+the decomposition to attain the same maximum.
+
+\subsection{The all-marked restriction for longer cycles}
+
+The following assertions hold conditional on $P=\max_{i,j}d_{ij}\le p_n$
+at a positive maximum, and are used below for $n=7,9$ after the diameter
+tests. They are not assumptions about an arbitrary spectral metric or
+an arbitrary weight. By \eqref{eq:global-normal} and
+\eqref{eq:ordinary-price}, every position is a spoke of a positive-mass
+strict contact or is omitted by a positive-mass cut. In particular every
+weight is at most $t_\mu\le t_m$. Normalize $m=1$.
+If $\mu=1$, a neighbor $b$ of a minimum satisfies
+$b(S-1-b)\ge S-1$ by the flat bound on $(S-1-b,b,1)$. Thus
+$b\ge t_1$ and in fact $b=t_1>1$. If a contact uses this edge, its
+coordinate equals $\alpha$ by \eqref{eq:contact-caps}. The partner then
+has coordinate zero, and its own price is one. A cut also gives it price
+one, and every ordinary price is at least $p_n$. This contradicts
+\eqref{eq:global-normal}. Therefore $\mu<1$ and every position occurs in
+a positive-mass strict contact.
+
+The conic in \eqref{eq:contact-conic} defines a strictly decreasing
+partner involution on the represented weights. Both partial derivatives
+are positive because $u+v<1/2$. Every neighbor of a weight is at least
+its partner. Indeed, replacing the partner by a smaller neighbor and adding the
+difference to $X$ strictly increases the rectangular bound, by its
+supporting gradient and $p>q_b$. Each position has at least one partner
+as a neighbor. Thus, numbering the distinct weights $0,\dots,k-1$ in
+increasing order, their ranks satisfy
+\begin{equation}\label{eq:marked-order}
+ r_i+\min(r_{i-1},r_{i+1})=k-1.
+\end{equation}
+Both neighbors of a minimum have maximum weight $H$, and every contact
+using $H$ pairs it with a minimum. Constant weights have zero gap by
+the unweighted theorem \cite{Jiang}. Label strict smaller partners low and
+their partners high. A run of the self-partner weight has at least two
+positions and is bordered by strict high positions unless the weight is
+constant. Alternate the labels within each such run. The low positions
+are independent, each high has a low neighbor, and each active pair
+has one endpoint of each type. If an entire even-length middle run can
+be labelled either way, either choice suffices. Thus there are three low
+and four high positions on $C_7$, and three or four low positions on
+$C_9$, since the gaps between consecutive lows have lengths two or three.
+
+For weight $w_i$, its spoke price $q_i=\sqrt{K(w_i-\mu)}/w_i$ is
+independent of the contact using it. Its total spoke participation
+$\ell_i=\sum_{f\ni i}\lambda_f$ sums to one over each label class.
+When $P<p_n$, equation \eqref{eq:global-normal} implies $q_i<d_i$ and
+$\ell_i\ge(p_n-d_i)/(p_n-q_i)$. More sharply one may replace $p_n$ by
+any common lower bound on the ordinary prices. Paired prices satisfy
+$q_a+q_b=1+(1-r^2)q_aq_b$ by \eqref{eq:contact-prices}.
+Also $u/(u+vr)\ge u/(u+v)$, whence
+$w_i\le\mu+(t_\mu-\mu)d_i^2\le1+(t_1-1)d_i^2$.
+For the second inequality interpolate the bounds on $\mu,t_\mu$ with
+nonnegative coefficients $1-d_i^2,d_i^2$.
+
+For clarity, the normalized totals used in the small-order certificates
+follow without a metric search. In the graph of active pairs, every
+vertex is covered, and each edge covers at most $t_1-1$ units of weight
+in excess of the baseline one, by \eqref{eq:contact-caps}. A path with
+$k\ge2$ vertices can be covered by $\lceil k/2\rceil$ adjacent pairs
+or singletons. Removing one link from a cycle is harmless. On seven
+vertices the total number of groups is at most four, and on nine it is
+at most six, since $\lceil k/2\rceil\le2k/3$. On seven, three odd
+components would already require nine vertices. Thus
+$S-7\le4(t_1-1)$ or $S-9\le6(t_1-1)$, respectively. Substituting
+$t_1(1-t_1/(S-1))=1$ gives
+\[
+ \begin{aligned}
+ C_7:\quad &S\le(13+4\sqrt7)/3<7.87,& H&\le3-\sqrt3<1.268,\\
+ C_9:\quad &S\le(54+12\sqrt{14})/10<9.9,& H&\le4-2\sqrt2<1.172 .
+ \end{aligned}
+\]
+The bounds on $H$ follow because $t_1$ decreases with $S$, whose
+smallest admissible value is $n$. The bounds on the order-specific weight totals require the diameter hypothesis stated above.
+
+\section{Weighted estimates on an alternating path}\label{sec:geometry}
+
+Throughout this section $n\ge5$ is odd, $\min_iw_i=1$, and $d$ is a
+spectral pseudometric. Write $D_w=\sum_e w_e d_e$. We use copositivity
+in the form
+\begin{equation}
+ \sum_{i<j}t_it_jd_{ij}\le\tfrac14(\sum_i t_i)^2
+ \quad(t_i\ge0).\label{eq:wgcp}
+\end{equation}
+All arguments allow coincident sites by adding their masses.
+For two rows $i,l$ and columns $j,h$ put
+$\Delta_{il;jh}=d_{ij}-d_{lj}-d_{ih}+d_{lh}$. Ptolemy and the
+triangle inequality give
+\begin{equation}
+ |\Delta_{il;jh}|\max(d_{ij},d_{ih},d_{lj},d_{lh})
+ \le 2d_{il}d_{jh}.\label{eq:wgmix}
+\end{equation}
+Indeed, if $U=d_{ij},V=d_{lh},W=d_{ih},Z=d_{lj}$, then
+$V\Delta=(UV-WZ)+(W-V)(Z-V)$. Ptolemy bounds the first summand
+in absolute value by $d_{il}d_{jh}$, and the triangle inequalities
+give the same bound on the second. Relabel to use the largest entry.
+The following estimates extend the equal-mass path estimates of
+\cite{Jiang} to weighted paths.
+
+\subsection{One edge inside a color class}
+
+Suppose the only edge with endpoints in the same class is $uv$ in
+$A$, of weight $t$ and length $s$. The other class is $B$. Remove
+$uv$ and let $N_{ij}$ be the edge weight of the resulting
+alternating path between $i\in A$ and $j\in B$ (zero if absent).
+Its sum is $X=S-t$, and its normalized row and column sums are
+$p_i,q_j$. Define
+\[
+ U=\sum_{ij}p_iq_jd_{ij},\quad
+ I_A=\sum_{i<l}p_ip_ld_{il},\quad I_B=\sum_{j<h}q_jq_hd_{jh}.
+\]
+Double centering gives the exact identity
+\begin{equation}
+ E=\sum_{ij}N_{ij}d_{ij}-XU
+   =\sum_{ijlh}N_{ij}p_lq_h\Delta_{il;jh}.
+ \label{eq:wgcenter}
+\end{equation}
+In fact the two subtracted terms have expectation $XU$, as does the
+term added back. Let $h$ be the smaller weight of the two end edges of
+the path, and put $k=h(1-h/X)$. Since $p_u,p_v$ are their weights
+divided by $X$, the triangle inequalities through every $i\ne u,v$
+give
+\[
+ I_A\ge[p_up_v+\min(p_u,p_v)(1-p_u-p_v)]s=ks/X .
+\]
+Also $1\le h\le X/2$, and $k\ge1-1/X$. Suppose $|E|\le Xc I_B$.
+Applying \eqref{eq:wgcp} to masses $bp_i,q_j$ gives, for $b\ge1$
+with $bc\le1$,
+\begin{equation}
+ D_w\le \tfrac X4(2+b+b^{-1})+(t-bk)s.\label{eq:wgadaptive}
+\end{equation}
+
+\begin{lemma}\label{lem:wgtwo}
+Assume $X\ge2t$, $s<1$, and $s\le X/[2(X-h)]$ whenever
+$(t-h)(X-h)\ge ht$ and $t\ge h$. Write $\lambda=\max(1,t/k)$.
+It suffices for $D_w\le L_3(w)$ that
+\[
+ c\min\{\lambda,(1-4ks/X)^{-1/2}\}\le1 .
+\]
+\end{lemma}
+\begin{proof}
+If $t\le k$, use $b=1$ in \eqref{eq:wgadaptive} to obtain $X$,
+the cut omitting $uv$. For $t>k$ put $a=X-h$. Thus $a\ge h,t$.
+When the rectangle $(a,h,t)$ is in its curved region or on its
+boundary its value is
+\[
+ (ah+at+ht)^2/(4aht)=X(2+\lambda+1/\lambda)/4 .
+\]
+The difference between this value and the right side of
+\eqref{eq:wgadaptive} is
+$(\lambda-b)[X(1-1/(b\lambda))/4-ks]$.
+It is nonnegative for $b=\min\{\lambda,(1-4ks/X)^{-1/2}\}$.
+Here $k/X\le1/4$. The remaining flat case has
+$(t-h)(X-h)\ge ht$ and $t\ge h$. It requires $X>2h$ and
+$t\ge h(X-h)/(X-2h)$. Since $(t-h)/(t-k)$ is increasing in $t$,
+its minimum there is $X/[2(X-h)]$. With $b=1$ we obtain
+$D_w\le X+t-h$, the cut omitting the end edge of weight $h$.
+The indicated rectangle is an adjacent fold in the original cycle.
+\end{proof}
+
+Here are the bounds for $c$ used below. Let $\rho$ be a positive
+lower bound on the largest cross entry in every nonzero rectangle in
+\eqref{eq:wgcenter}, and let $\alpha$ bound $\operatorname{diam}A$.
+Equation \eqref{eq:wgmix} gives $c\le4\alpha/\rho$ in the sense
+that this value may be used for $c$. If each $i\in A$ lies within
+$R_i$ of a common point, put $\bar R=\sum p_iR_i$ and
+$M_j=\sum_i N_{ij}R_i/(Xq_j)$. For $j\ne l$, collecting the two
+orientations gives an alternative coefficient
+\begin{equation}
+ c=\frac2\rho\max_{j\ne l}(2\bar R+M_j+M_l).
+ \label{eq:wgradii}
+\end{equation}
+Only two rows, the path endpoints, have exceptional upper radii
+$R_C,R_Y$. The remaining upper bound is $R_A$. Each exceptional row
+occurs in just one column, and these columns are distinct. If its
+incident weight is bounded by $a_C$ or $a_Y$, another edge of weight
+at least one enters the same column. Hence
+\[
+ M_j+M_l\le 2R_A+
+ \frac{a_C}{1+a_C}(R_C-R_A)_++
+ \frac{a_Y}{1+a_Y}(R_Y-R_A)_+.
+\]
+The limiting factor $1$ can always be used. The bound for $\bar R$ uses
+$p_C\le a_C/X$, $p_Y\le a_Y/X$, or groups $Y$ with the ordinary
+rows at radius $\max(R_A,R_Y)$ before estimating $p_C$.
+
+For $S\le U_0$, write $F_0=U_0-1$. The identity $d_{ii}=0$ gives
+\[
+ \sum_l p_l d_{il}\le
+ \min\{(1-p_i)\alpha,\ \bar R+(1-2p_i)R_i\}.
+\]
+Every $p_i\ge1/F_0$ and each internal row has $p_i\ge2/F_0$.
+Thus in the diameter bound one may use $(1-1/F_0)\alpha$. In
+\eqref{eq:wgradii} replace the neighborhood radii by
+$(1-2p_i)R_i$, bounded either by the common factor $1-2/F_0$, or by
+$1-4/F_0$ for ordinary rows and $1-2/F_0$ for the two exceptional
+rows. A negative excess $R_C-R_A$ or $R_Y-R_A$ in $\bar R$ can be
+retained with coefficient $1/F_0$. These are the diagonal corrections
+in the two-class test.
+
+\subsection{A singleton and two alternating classes}
+
+Remove one site $C$. Let $u\in A,v\in B$ be the endpoints of the
+remaining alternating path, with incident spoke weights $a,b$ at $C$.
+Retain $N_{ij}$ for the path matrix, of total weight $X=S-a-b$ and
+margins $r_i,c_j$. Define
+\[
+ f_i=\frac{r_i+a\mathbf1_{i=u}}{X+a},\qquad
+ h_j=\frac{c_j+b\mathbf1_{j=v}}{X+b}.
+\]
+Independent averages below use $f,h$. In particular
+$f_u\ge(1+a)/(X+a)$ and $h_v\ge(1+b)/(X+b)$.
+Write $I_A=\sum_{i<l}f_if_l d_{il}$ and
+$I_B=\sum_{j<t}h_jh_t d_{jt}$. Giving $A,B,C$ the respective masses
+$Xaf_i,Xbh_j,ab$ in \eqref{eq:wgcp} and dividing by $Xab$ gives
+\begin{equation}
+ W+(Xa/b)I_A+(Xb/a)I_B\le
+ F(X,a,b):=\frac{(Xa+Xb+ab)^2}{4Xab},\qquad
+ W=X\mathbb Ed_{ij}+a\mathbb Ed_{iC}+b\mathbb Ed_{jC}.
+ \label{eq:wgthreecp}
+\end{equation}
+The three error terms in this comparison are
+\begin{align}
+ D_w-W&=E_0+E_A+E_B,\nonumber\\
+ E_0&=\sum_{ij}N_{ij}\mathbb E_{l,t}\Delta_{il;jt},\qquad
+ E_A=a\mathbb E(d_{uC}-d_{iC}-d_{uj}+d_{ij}),\nonumber\\
+ E_B&=b\mathbb E(d_{vC}-d_{jC}-d_{iv}+d_{ij}).
+ \label{eq:wgerrors}
+\end{align}
+Substitute the two margins to verify the equality. For $K_A,K_B$
+bounding the absolute mixed difference per unit $d_{ui},d_{vj}$ in
+the last two terms, their respective shares of the pairwise budgets
+on the left of \eqref{eq:wgthreecp} are at most
+\begin{equation}
+ K_A\frac{b(1+a/X)}{1+a},\qquad K_B\frac{a(1+b/X)}{1+b}.
+ \label{eq:wgspokecharge}
+\end{equation}
+Only pairs meeting the corresponding endpoint incur these costs.
+If $\beta$ bounds $\operatorname{diam}B$, the full cost of $E_0$
+on any one row pair, divided by its budget, is at most
+\begin{equation}
+ c_A=\frac{4\beta}{\rho}\frac ba(1+a/X).
+ \label{eq:wgmasscost}
+\end{equation}
+Indeed the two row orientations have margin $r_i f_l+r_l f_i\le
+2(X+a)f_if_l$. The column cost $c_B$ interchanges the two classes.
+As in \eqref{eq:wgradii}, the column cost also admits the factor
+$2(2\bar R'+2R_A+\xi(R_Y-R_A)_+)/\rho$ instead of $4\alpha/\rho$,
+where $\bar R'=\sum f_iR_i$ and $\xi$ bounds the fraction of the
+one exceptional row's incident edge in its column. The upper bound on
+$f_Y$ follows from its exact definition. For $S\le U_0$ all $f_i,h_j$
+are at least $2/(U_0-1)$, including endpoints by the added spoke
+weights. The preceding diagonal corrections apply with these bounds.
+
+Let $s_A,s_B$ be the remaining normalized endpoint budgets after
+\eqref{eq:wgspokecharge}. If they are nonnegative, it suffices that
+$c_A\theta\le s_A$ and $c_B(1-\theta)\le s_B$ for one $\theta\in[0,1]$.
+In a finite total interval one can also separate endpoint and ordinary
+pairs. In the diameter estimate for a pair $u,i$, the margin factor is
+$2(X+a)f_uf_i[1-a/(2(r_u+a))]$, with the analogous formula at $v$.
+Write $c'_A,c'_B$ for the resulting endpoint bounds (the
+mean-radius estimate is still available without the improvement).
+The required fractions exist when
+\begin{equation}
+ \min(1,1/c_A,s_A/c'_A)+\min(1,1/c_B,s_B/c'_B)\ge1.
+ \label{eq:wgsplit}
+\end{equation}
+Terms with zero denominator are omitted. Equation \eqref{eq:wgthreecp}
+then gives $D_w\le F(X,a,b)$.
+
+\paragraph{The flat rectangle and the spoke coefficients.}
+The test uses $X>H\ge a_0,b_0$, where $a_0,b_0$ are the actual
+spoke weights. Fix the geometry and path matrix. Maximize
+$D_{(X,a,b)}-\Omega(X,a,b)$ on $[1,a_0]\times[1,b_0]$, and among its
+maximizers minimize $a+b$. If $a\le b$ and $a<Xb/(X+b)$, reduce $b$
+to $Xa/(X-a)>a$. The rectangular exponent decreases by the full removed
+weight while the objective decreases by at most that much. This
+contradicts minimality. Therefore the chosen pair is in the curved
+region or on its boundary, where $F=\Omega$ and the smaller weight
+is at least $g/(1+g/X)$ for $g=\max(a,b)$. All upper bounds on excess
+weights valid for the actual pair remain valid for the chosen pair.
+Paying its errors proves the inequality at the original pair also.
+
+Here are explicit coefficient bounds used in this minimization.
+If $X\ge X_0>H$, then
+\begin{equation}
+ \frac ba(1+a/X)\le1+2H/X_0,\qquad
+ \frac{b(1+a/X)}{1+a}\le
+ \frac{H(1+2H/X_0)}{1+H+H/X_0}.
+ \label{eq:wgharm}
+\end{equation}
+For each expression first substitute $b=g$, $a=g/(1+g/X)$, and then
+use monotonicity. If $b>1$, decreasing $b$ is an admissible variation
+at the maximizing pair. Thus $\partial_b\Omega\le d_{Cv}\le q$
+for any upper bound $q$ on this distance, including at the differentiable
+flat boundary. Direct differentiation gives
+\[
+ \partial_b\Omega=\frac{X}{4a}\big((1+a/X)^2-a^2/b^2\big).
+\]
+Consequently the two quantities on the left of \eqref{eq:wgharm}
+are also bounded by $V$ and $aV/(1+a)$ respectively, where
+$V=[1-4q(a/X)/(1+a/X)^2]^{-1/2}$ if the bracket is positive.
+For $b=1$ they are at most $1+1/X_0$ and $(1+1/X_0)/2$.
+The checker takes the larger of the two alternatives before
+intersecting with \eqref{eq:wgharm}. In bounding $V$ it uses that
+$x/(1+x)^2$ increases on $0\le x\le1$. The column estimates follow
+by exchanging $a,b$.
+
+\paragraph{Endpoint differences.}
+For $g_z=d(x,z)-d(y,z)$ and $S_z=d(x,z)+d(y,z)$ put $L=d(x,y)$,
+$H'=d(b,c)$. If $|g_b-g_c|>L$ then the signs are opposite and the
+two Ptolemy inequalities imply
+$S_c|g_b|+S_b|g_c|\le2LH'$ by expanding the difference of the cross
+products. As $|g_b|,|g_c|\le L$, allowable bounds on
+$|g_b-g_c|/L$ include
+\begin{equation}
+ 2,\quad 2H'/\rho_*,\quad
+ \max(1,2H'/\min(S_b,S_c)),\quad
+ 1+\frac{[2H'-\min(S_b,S_c)]_+}{\max(S_b,S_c)} .
+ \label{eq:wgendpoint}
+\end{equation}
+Here $\rho_*$ is any lower bound on the largest cross distance in
+\eqref{eq:wgmix}. Use positive denominators only. For the last formula
+maximize the sum of two quantities in $[0,1]$ with this one weighted
+constraint, spending first on the smaller coefficient. This also
+explains its validity with separate lower bounds for the two sums.
+The case $L=0$ gives zero mixed error.
+
+\section{The normalized total-weight threshold}\label{sec:threshold}
+
+\begin{theorem}\label{thm:wglong}
+On every positive odd cycle with $S/\min w_i\ge11$ the value of
+$\Gamma(w)$ is $L_3(w)$. On an odd cycle of order at least nine,
+every spectral metric of diameter at least $195/196$ satisfies
+$D_w\le L_3(w)$, without a lower bound on $S/\min w_i$ other than
+the order of the cycle.
+\end{theorem}
+
+The triangle follows from the rectangular theorem. In this section
+assume $n\ge5$ and normalize $\min w_i=1$. We give the scalar
+inequalities and finite verification for Theorem~\ref{thm:wglong}.
+The interval proof has three coordinates in both assertions, even
+when the length and the edge weights of the cycle are unbounded.
+
+\subsection{Coordinates determined by a diameter}
+
+We need only consider $D_w\ge L_3(w)\ge S-1$. Choose diameter
+endpoints $A_0,B_0$ and write $P=d(A_0,B_0)$, $r=\sqrt{1-P}$.
+Then $r^2\le1/S$. Color a site according to its nearer endpoint
+with ties decided once and for all. Write its distances, in increasing
+order, as
+\[
+ Pz_i+e_i,\quad P(1-z_i)+e_i,\qquad 0\le z_i\le1/2,\quad e_i\ge0 .
+\]
+Put $\tau_i=d(A_0,i)-d(B_0,i)$, so
+$|\tau_i|=P(1-2z_i)$. The coordinate $(P+\tau_i)/2$ is
+$1$-Lipschitz. In particular $P|z_i-z_j|$ for equal colors and
+$P(1-z_i-z_j)$ for opposite colors are distance lower bounds.
+The following lens estimates from \cite{Jiang} take the following form with
+weights.
+\begin{align}
+ e_i&\le Pz_i,\qquad
+ e_i\le\tfrac12\{r^2+r\sqrt{1-P(1-2z_i)^2}\},\label{eq:wglens}\\
+ e_i+e_j&\le r^2(1+1/t)+\tfrac t4
+ \left(1-d_{ij}-\frac{(\tau_i+\tau_j)^2}{4P}\right)
+ \qquad(0<t\le2).\label{eq:wgjoint}
+\end{align}
+The first bound uses the far distance $\le P$. For the second, apply
+\eqref{eq:wgcp} with masses $1+b,1-b,t$ and $b=t\tau_i/(2P)$.
+This gives $P+2e_i\le1+r^2/t+t(1-\tau_i^2/P)/4$.
+Its minimizing $t$ has $|b|\le1$ since $|\tau_i|\le P$. The
+degenerate cases follow by continuity or by testing $1,1,t$.
+Using masses $1+b,1-b,t/2,t/2$ and $b=t(\tau_i+\tau_j)/(4P)$
+gives \eqref{eq:wgjoint}, again with nonnegative masses.
+
+Reverse each site's color independently with probability $z_i$,
+and write $\pi_{ij}$ for the resulting probability of agreement.
+Ptolemy on the two sites and the two diameter endpoints gives
+\begin{equation}
+ P-d_{ij}\ge P\pi_{ij}-H_{ij},\qquad
+ H_{ij}=e_i+e_j+2e_ie_j/P\le E(r):=\frac{r(2-r)(1+r)}{2(1-r)} .
+ \label{eq:wgflip}
+\end{equation}
+Indeed, insert the two pairs of distances in the sum of cross
+products, and use $e_i\le(r+r^2)/2$. In particular a same-colored
+edge has length $s\le(1+r)/(2(1-r))$. A second bound for such an edge
+uses $f=1+(r+r^2)/(2P)$ and $2e_ie_j\le (r+r^2)(e_i+e_j)/2$.
+Equations \eqref{eq:wgjoint} and \eqref{eq:wgflip} give
+\begin{equation}
+ s\le\frac{P/2+f[r^2(1+1/t)+t/4]}{1+ft/4}.
+ \label{eq:wgseamcount}
+\end{equation}
+The fraction is increasing in each of $P,r^2,f$ for $P\le1$.
+
+For a lower bound $M\le S$, the total available diameter deficit is
+\begin{equation}
+ \sum_e(P-d_e)+\sum_e(w_e-1)(P-d_e)
+ =SP-D_w\le P-(S-1)r^2.\label{eq:wgtotaldef}
+\end{equation}
+In the unrestricted-radius runs, partition $[0,\sqrt{1/M}^{\,+}]$
+into 64 equal closed intervals. On each $[r_0,r_1]$, the checker
+obtains an upper bound $s_+$ from \eqref{eq:wgseamcount} and the
+preceding elementary bound, and checks
+$3(1-r_1^2-s_+)>1-Mr_0^2$. The superscript $+$ denotes outward
+rational rounding. Thus three edges of equal endpoint colors would
+exceed \eqref{eq:wgtotaldef}. In the fixed-radius run $r\le1/14$,
+three such edges already require
+$0\ge1/2+(S-3)r^2-3r/(1-r)$, which is impossible.
+The number of such edges is odd. Denote the unique one by $CY$,
+and orient it so $u=z_C\ge v=z_Y$. Let $C',Y'$ be their other
+neighbors. All sites except $C,Y$ are called ordinary. Directly,
+\begin{equation}
+ \pi_{C'C}+\pi_{CY}+\pi_{YY'}
+ =1+2uv+(1-2u)z_{C'}+(1-2v)z_{Y'} .\label{eq:wgspecial}
+\end{equation}
+Therefore $(M-1)r^2+2Puv\le3E(r)$. At the root replace the
+upper radius $R$ three times by the smaller of $R$ and
+$3E(R)/[(M-1)R]$, rounded upward. This is valid because
+$E(r)/r$ increases on $[0,R]$.
+
+The length $s=d(C,Y)$ has four upper bounds. The first two are
+$P(u+v)+e_C+e_Y$ and $P(u+v-2uv)+H_{CY}$ by triangle and Ptolemy.
+For the third, the two Euclidean comparison triangles with base
+$A_0B_0$ have horizontal coordinates and heights
+\[
+ T_z=Pz-e(1-2z),\qquad h_z^2=4z(1-z)e(P+e).
+\]
+Their perpendicular feet lie on the base by \eqref{eq:wglens}.
+Place them on opposite sides of the base. Comparison in the
+$\mathrm{CAT}(0)$ extension at the intersection of their joining
+segment with the base gives
+$s^2\le(T_u-T_v)^2+(h_u+h_v)^2$ \cite{CAT,Jiang}.
+Finally apply \eqref{eq:wgjoint} to $C,Y$ with
+$(\tau_C+\tau_Y)^2/(4P)=P(1-u-v)^2$.
+Substitution into each of the first two bounds gives rational bounds
+on $s$. In the Ptolemy version, if $E_C,E_Y$ bound the separate
+errors, replace $H_{CY}$ by
+$[1+2E_CE_Y/(P(E_C+E_Y))](e_C+e_Y)$. The factor is one
+if both caps vanish. These four bounds are intersected on each box.
+
+\subsection{The deficit left for ordinary sites}
+
+Remove $C$ and call the side containing $Y$ class $A$, the other $B$.
+Let $W_A,W_B$ bound $Pz_i$ at the ordinary sites of each class
+and $e_A,e_B$ their lens errors. On an interval box these symbols
+denote upper bounds. Put $d=1-r_1^2$ and
+$H(x,y)=x+y+2xy/d$. Write $B_0'=(M-1)r_0^2$ for the amount
+deducted from $P$ in \eqref{eq:wgtotaldef}. A first upper bound
+$L$ for the remaining budget, while retaining the two
+coordinate terms in \eqref{eq:wgspecial}, is the minimum of
+\begin{align*}
+ &H(E_C,E_Y)+H(E_C,e_B)+H(E_Y,e_B)-2Puv-B_0',\\
+ &s-P(u+v)+H(E_C,e_B)+H(E_Y,e_B)-B_0'.
+\end{align*}
+The first line bounds the error on all three edges. The second uses
+the actual seam deficit $P-s$. Its terms involving the two exceptional
+lens errors are bounded by $s+(1+2e_B/d)(e_C+e_Y)$. Substitute
+\eqref{eq:wgjoint} here and, whenever $1-t(1+2e_B/d)/4\ge0$,
+replace $s$ by its upper bound. In these formulas actual positive
+terms are bounded above, and subtracted positive terms below.
+
+There is a weighted improvement for the geometric estimates.
+Let $a,b$ be the weights of $CY,CC'$ and $T=S-2$. At $(T,1,1)$ the
+ordinary and spoke derivatives of $\Omega$ are
+$1-1/(4T^2)$ and $1/2+1/(4T)$. The cut and the supporting
+hyperplane there give
+\[
+ D_w\ge S-1+\max(0,1/(4T)-(a+b-2)/2).
+\]
+For a common nonnegative lower bound $\zeta$ on $P-d_{CY},P-d_{CC'}$,
+the sum of this improvement and the excess spoke deficit is at least
+$c/(4T)$, $c=\min(1,2\zeta)$. Indeed minimize
+$\max(0,1/(4T)-y/2)+\zeta y$ over $y\ge0$. Thus, for bounding
+ordinary geometry, replace $B_0'$ by
+\begin{equation}
+ B_* = \inf_{T\ge M-2}[(T+1)r_0^2+c/(4T)] .
+ \label{eq:wgbstar}
+\end{equation}
+When $4(M-2)^2r_0^2\ge c$ this is $B_0'+c/[4(M-2)]$. Otherwise
+it is $r_0^2+r_0\sqrt c$. Use $B_0'$ again when bounding the
+excess spoke weights themselves, to avoid paying twice with them.
+
+In the two neighbor terms of \eqref{eq:wgspecial} we have
+$Pz_{C'}\ge e_{C'}$, $Pz_{Y'}\ge e_{Y'}$. Their corresponding single
+lens errors were bounded by $e_B$. Combining a positive coordinate
+term with its error saves $(1-2u_1)e_B=:c_C$ or $(1-2v_1)e_B=:c_Y$
+in the upper bound. Hence $L_0=L-c_C-c_Y$ bounds the residual
+when both terms are used, and $L_1=L-\min(c_C,c_Y)$ does so when
+one coordinate term is retained. A negative $L_0$ excludes a box.
+Superscript $*$ below indicates the geometric versions from
+\eqref{eq:wgbstar}. The baseline versions also bound the
+sum of all excess weight deficits.
+
+On an ordinary cross edge, $\pi_{ij}=z_i+z_j-2z_iz_j$.
+Since $e_j\le Pz_j$ and $1-2z_i\ge0$, \eqref{eq:wgflip} implies
+\begin{equation}
+ P-d_{ij}\ge Pz_i-e_i-2(z_i+e_i/P)e_j.\label{eq:wgoneside}
+\end{equation}
+Thus the cost subtracted from $Pz_i$ can be bounded by
+$h_A=e_A+2(W_A+e_A)e_B/d$ or its transpose $h_B$.
+It can also be bounded by $H(e_A,e_B)$ since $\pi_{ij}\ge z_i$.
+Write $h'_A,h'_B$ for the minima with this common bound.
+Equation \eqref{eq:wgjoint} also bounds $e_i+e_j$ on every external
+ordinary edge by $r_1^2(1+1/t)+(r_1^2+L_0^*)t/4$. This bounds
+each ordinary error (each site has at least one such edge) and may
+replace $e_A+e_B$ in $H(e_A,e_B)$.
+
+An ordinary $A$ site has two external edges. The same holds for a $B$
+site other than $C',Y'$. For either of these two sites, one external
+edge remains and its coefficient in \eqref{eq:wgspecial} is at least
+$1-2u_1$. Consequently valid updates are
+\begin{align*}
+ W_A&\le L_0^*/2+h_A,\\
+ W_B&\le \min\{L_0^*+h'_B,\,
+    \max(L_0^*/2+h_B,(L_1^*+h_B)/(2-2u_1))\}.
+\end{align*}
+One can separately use the unrecovered $L^*$ and $H(e_A,e_B)$
+in these incidence counts. Starting with $H_{ij}\le E(r_1)$
+one obtains $W_A\le(5E-2du_0v_0-B_0')/2$ and
+$W_B\le\max(W_A^{(0)},(4E-2du_0v_0-B_0')/(2-2u_1))$,
+where $W_A^{(0)}$ is this initial bound. The verifier applies the
+individual and joint lenses and these updates at most 35 times.
+Every iteration is valid independently of convergence.
+
+For two distinct ordinary $A$ sites the two pairs of incident edges
+are disjoint. Thus the sum of their $Pz_i$ coordinates is at most
+$L_0^*/2+2h'_A$. For a pair in $B$ containing respectively zero,
+one or two members of $\{C',Y'\}$, the corresponding upper bounds are
+\begin{align*}
+ &L_0^*/2+2h'_B,\\
+ &\min\{(L_1^*+3h'_B)/2+u_1W_B,\ (L_0^*+3h'_B+W_B)/2\},\\
+ &\min\{(L^*+2h'_B)/(2-2u_1),\ L_0^*+2h'_B\}.
+\end{align*}
+To obtain these lines sum, respectively, four, three or two
+different external edge deficits. In the last two cases either
+retain the corresponding coordinate terms from \eqref{eq:wgspecial}
+or discard them and use $Pz\le W_B$. Add the two lens errors to
+bound the pair distance through its anchor. Pairs involving $C$ or
+$Y$ use the sum of their two individual anchor radii, and $CY$
+also uses the seam bound.
+
+For opposite colors the other orientation of Ptolemy gives
+\[
+ d_{ij}\ge P(1-z_i-z_j)+e_i(1-2z_j)+e_j(1-2z_i).
+\]
+Indeed subtract the product of the two near distances from the product
+of the two far distances and divide by $P$. In this expression the
+individual losses $Pz_i-e_i$ on ordinary $A,B$ sites are at most
+$L_0^*/2+2(W_A+e_A)e_B/d$ and $L_0^*+2(W_B+e_B)e_A/d$
+by \eqref{eq:wgoneside}. At $C,Y$ the trivial upper bounds are
+$Pu,Pv$. These estimates and the Lipschitz diameter coordinate
+give lower bounds on the cross distances used in Section~\ref{sec:geometry}.
+For use in \eqref{eq:wgendpoint}, the two distance sums from the
+pair $Y,i$ ($i$ an ordinary $A$ site) to $C,j$ ($j\in B$)
+are bounded below by
+\[
+ [d(u_0-v_1)]_++[du_0-W_A]_+,\qquad
+ 2d-v_1-W_A-2W_B .
+\]
+For a pair $C',j$ in $B$, the sums to $i\in A$ and $C$ are at
+least $2\rho$ and $2[d(1-u_1)-W_B]_+$, where $\rho$ bounds all
+cross distances after removing $C$. Upper bounds on $d(C,j)$ and
+$d(C,i)$ follow respectively from
+$d(C,j)\le P-Pu+e_C+R_B$ and $d(C,i)\le Pu+e_C+R_i$,
+where $R$ denotes distance to the assigned anchor. The uniform
+directional bound \eqref{eq:wgoneside} also applies to $C,j$ and
+$Y,j$. All the stated endpoint estimates follow by the same two
+anchors for every site, irrespective of the weights.
+
+\subsection{Weight bounds, the finite trees, and the diameter branch}
+
+We describe the weight bounds supplied to the tests of
+Section~\ref{sec:geometry}. If $P-d_e\ge\delta>0$ on an edge,
+then $w_e\le1+L_0/\delta$. For $e=CY$ one also has
+$w_e\le1/(1-s)$, by $\sum w_e(1-d_e)\le1$.
+These give bounds on the endpoint masses for \eqref{eq:wgradii}
+and on the smaller end weight $h$ in Lemma~\ref{lem:wgtwo}. If
+$h/X\le\eta\le1/2$, then $k/X\le\eta(1-\eta)$ in that lemma.
+The two-class test uses $s\le1/2$. Its $X\ge2t$ condition follows
+from $t\le2$ and $S\ge7$. For the three-class test,
+summing the unweighted inequality $D_1\le n-1+1/[4(n-2)]$ and the
+weight deficit gives
+\begin{equation}
+ \sum_e(w_e-1)(1-d_e)\le\frac1{4(n-2)},\qquad
+ \sum_e(w_e-1)(P-d_e)\le\frac1{4(n-2)}-(S-n)r^2 .
+ \label{eq:wgextra}
+\end{equation}
+If both spoke deficits $P-d_e$ are at least $\zeta>0$, the maximum
+of their weights is at most $H=1+\min(L_0,1/[4(n-2)])/\zeta$.
+Set $X_0=M-2H$ and require $X_0>H$ for this test.
+The maximization over clipped weights in Section~\ref{sec:geometry}
+gives a smaller spoke at least $g/f$ when the larger is $g$,
+where $f=1+H/X_0$. For sorted individual deficit lower bounds
+$\delta_l\le\delta_h$, rearrangement gives
+\[
+ (g-1)\delta_l+(g/f-1)\delta_h\le L_0 .
+\]
+The same holds with each $\delta$ increased by $r_0^2$ and the
+right side replaced by $1/[4(n-2)]$. Solving these two inequalities
+for $g$ improves $H$. Either bound can be reapplied with the
+new $f$. At a single spoke the separate weight bound above and
+\eqref{eq:wgextra} can also be used in the derivative bound following
+\eqref{eq:wgharm}.
+
+On $M\le S\le U_0$, possible orders are the odd integers
+$n_0\le n\le U_0$ with
+$\max(0,M-n)r_0^2\le1/[4(n-2)]$. One may reject the box when
+there are none, and otherwise use their least value as $n_0$.
+In this case use the maximum second right side in \eqref{eq:wgextra}
+over the allowed orders, substituting $\max(0,M-n)$ for $S-n$.
+This bound applies to excess weights only, after the ordinary
+geometric estimates have been obtained. Any edge or pair of edges
+has total weight at most $1+U_0-n_0$ or $2+U_0-n_0$ respectively,
+and a remaining path with $j$ edges removed has weight at least
+$n_0-j$. Thus $g(1+1/f)\le 2+U_0-n_0$. The finite-mass
+improvements of Section~\ref{sec:geometry} apply with $F_0=U_0-1$.
+These observations describe all weight-dependent tests in the
+unconditional and fixed-radius certificates.
+
+\paragraph{Adjacent minimum weights.}
+We will need an independent upper bound at fixed $S,m$ in the
+nine-cycle proof. For odd $n\ge7$ it follows from the same three
+coordinates. If two adjacent weights are $1$, their fold yields
+$J(S,1)=S-1+1/[4(S-2)]$. It is the largest adjacent fold because
+all three coordinates of each positive fold are at least $1$,
+so $(S-2,1,1)$ majorizes its coordinates. Subtracting this additional
+gain in the derivation of \eqref{eq:wgextra} gives
+\begin{equation}
+ \sum_e(w_e-1)(1-d_e)\le
+ \frac{S-n}{4(n-2)(S-2)}.\label{eq:wgadj}
+\end{equation}
+If $S=n$, the unweighted theorem applies. Otherwise, divide by
+$S-n=\sum(w_e-1)$ to see that some distance is at least
+$1-1/[4(n-2)(S-2)]$. Hence $r\le1/(2\sqrt{(n-2)(S-2)})$.
+The gain $1/[4(S-2)]$ is independent of local spoke weights, so in
+\eqref{eq:wgbstar} take $c=1$ and the infimum over
+$M-2\le T\le U_0-2$. Keep this strengthened deduction for excess
+weights too. In the interval $7\le S\le8$ one has $n=7$, and
+\eqref{eq:wgadj} gives $U_*=\min(8,2+1/(20r_0^2))$ as an upper
+bound on $S$ (use $8$ at $r_0=0$). The right side for excess
+$P$-deficits is at most
+$(T-5)[1/(20T)-r_0^2]$, maximized at $1/(2r_0)$ clipped to
+$[5,U_*-2]$, or at the right endpoint if $r_0=0$.
+This proves the additional tests in the adjacent-minimum runs.
+
+\paragraph{Exact interval calculation.}
+All three-coordinate trees have root $[0,R]\times[0,1/2]^2$,
+with the radius reduction described after \eqref{eq:wgspecial}.
+Initially $R$ is an upper rounding of $1/\sqrt M$ in the
+unconditional run, $1/14$ in the fixed-radius run, or an upper
+rounding of $1/(2\sqrt{(n_0-2)(M-2)})$ in the adjacent-minimum
+run. The ordered projections impose $u\ge v$ in each box. All
+two-site lens tests use
+$t\in\{1,1/2,\ldots,1/8,2/3,3/2,2\}$. The verifier evaluates
+the preceding inequalities with rational endpoints. For $a/b\ge0$,
+a square-root upper bound on the $10^{-k}$ grid is
+$(1+\lfloor\sqrt{\lfloor10^{2k}a/b\rfloor}\rfloor)/10^k$.
+Omitting the $1$ gives a lower bound. Here $k=7$ for square roots.
+Intermediate spoke upper bounds are rounded up on the $10^{-8}$
+grid. Neither step needs floating point arithmetic.
+A node consists of a coordinate and its two closed midpoint
+subintervals, or of a claimed leaf type. The verifier reconstructs
+each box and checks its leaf inequality. The table gives the terminal counts and depths of the verified trees.
+The shared first tree is listed only once.
+\begin{center}\small
+\begin{tabular}{llrrrr}
+Hypothesis & $S$ & excluded & two classes & three classes & depth\\
+\hline
+$n\ge5$ & $[12,\infty)$ & 17130 & 4710 & 17405 & 24\\
+$n\ge5$ & $[11,12]$      & 17446 & 5899 & 24977 & 28\\
+$n\ge9$, $r\le1/14$ & $[9,10]$  & 196 & 4956 & 1570 & 27\\
+ & $[10,11]$ & 144 & 1267 & 463 & 22\\
+ & $[11,12]$ & 116 & 504 & 288 & 20\\
+$n\ge7$, adjacent minima & $[7,8]$ & 8875 & 16765 & 11916 & 35\\
+ & $[8,9]$  & 755 & 3064 & 2828 & 24\\
+ & $[9,10]$ & 250 & 857 & 624 & 21\\
+ & $[10,11]$ & 130 & 347 & 275 & 18\\
+ & $[11,12]$ & 83 & 158 & 160 & 17
+\end{tabular}
+\end{center}
+From each of the certificate directories \texttt{threshold},
+\texttt{conditional\_nine}, and \texttt{adjacent}, run
+\texttt{python -B verify.py}. The common unbounded stage stores
+\texttt{degreestationary-12.json}. The unconditional compact stage
+stores \texttt{wide11.json}. The other stage filenames and their
+orders appear verbatim in each respective driver.
+For the first assertion of Theorem~\ref{thm:wglong} the first two
+rows exhaust $S\ge11$. For the second use the fixed-radius rows
+together with $S\ge12$. In both, exclusion eliminates the
+putative geometry, and the two other leaf types give $D_w\le L_3$
+by Section~\ref{sec:geometry}. The folded rectangle gives the
+matching lower bound.
+
+It follows also that for $n\ge7$ and adjacent minima $m>0$ one has
+$\Gamma(w)=J(S,m)=S-m+m^2/[4(S-2m)]$. For arbitrary weights on
+these orders, $\Gamma(w)\le J(S,m)$, since each one-heavy vector of sum
+$S$ and minimum $m$ has adjacent minima, and $w$ is their convex
+combination with coefficients $(w_i-m)/(S-nm)$. When $S=nm$ use
+the unweighted theorem. This proof of the bound for use at order nine
+does not use the arbitrary-weight nine-cycle result.
+
+\section{The pentagon}\label{sec:five}
+
+We prove that the maximum in \eqref{eq:global-normal} cannot be positive
+on $C_5$. The only directly certified family of two-level weights needed
+in this proof is the one with two nonadjacent light edges. We use the
+large-total estimate of Theorem~\ref{thm:wglong} only
+in the range $S/m\ge12$. Its proof uses the unweighted cycle bounds and
+copositivity, independently of the weighted pentagon.
+
+\subsection{The terminal configurations}
+
+Temporarily set $S=1$. If $K=1-m$, the minimum positions are independent because
+two adjacent minima give $\Omega(1-2m,m,m)>1-m$. Set
+\[
+ t=\tfrac12\big(1-m-\sqrt{(1-m)(1-5m)}\big).
+\]
+A neighbor $b$ of a minimum satisfies $b(1-m-b)\ge m(1-m)$, so $b\ge t$.
+Equality in the quadratic marks that neighbor precisely when $b=t$, since
+the other coordinate $1-m-b\ge3m$ exceeds the small root $t\le2m$.
+The last bound follows by substituting $2m$ in the quadratic.
+Every strictly curved winning pair avoiding the minimum has both spokes
+less than $t$. Indeed, replacing its smaller spoke by $m$ and moving the
+difference into the ordinary coordinate strictly increases its value,
+by the supporting gradient $p>q$ in Section~\ref{sec:contacts}. If its
+other spoke is $b$, this says $b(1-m-b)<m(1-m)$ and $1-m-b>t$, so $b<t$.
+A contact on the flat boundary has smallest coordinate $m$ and gradient
+equal to its minimum-deleting cut. If there are two minima, every other
+position is next to one, so there is no strictly curved winning pair.
+All active gradients are then cuts, and the price of a nonminimum position
+in \eqref{eq:global-normal} would be $1+\delta$. The same argument applies
+if there is a unique minimum and no strict contact.
+
+With just one minimum, the only possible strict contact joins the two
+positions opposite it. At a terminal point at least four positions have
+been marked, so at least one neighbor of the minimum equals $t$. Up to
+reflection the weights are consequently $(m,t,a,b,H)$, $m<a,b<t\le H$.
+The unique strict contact has spokes $(a,b)$. Every other active gradient
+is the cut deleting $m$. We exclude this mixture below.
+
+If $K>1-m$, all winning pairs are strictly curved. Regard these
+pairs as links on the cycle of five edge positions. Those links cover
+at least four positions, so they contain two disjoint links. Two adjacent
+links force their outer spokes to be equal by the uniqueness of the
+partner in \eqref{eq:contact-conic}. Also each winning pair has its other
+spoke no larger than the next neighbor at either end, by the supporting
+gradient argument above. With exactly two links the pattern is therefore
+$(x,y,a,b,H)$ with winning pairs $(x,y),(a,b)$, and
+$x\le a,\ b\le y,\ H\ge\max(a,y)$. Three links form a path of three
+or a path of two and a separate link. In the first case the pattern is
+$(a,b,a,b,H)$ with $H\ge\max(a,b)$, in the second it is $(A,B,A,C,D)$
+with $B\le D\le C\le A$, after reflection if necessary. Four links give
+$(a,b,a,b,a)$. $a<b$ is impossible since then the pair $(a,a)$ improves
+a winning pair. If five links occur the odd length forces all weights
+equal. Thus apart from equal weights and the single nonadjacent binary
+family, it suffices to treat the three patterns just listed. All
+coefficients of the active gradients are allowed to vanish.
+
+\subsection{A binary family and the arithmetic of its certificate}
+
+For $w=(s,1,s,1,1)$, $0\le s\le1$, set $J=s(s+2)$, $s_0=\sqrt3-1$.
+The candidate is $\Omega(2+s,1,s)$ by majorization of the other triples.
+It equals $3+s$ up to $s_0$, and thereafter equals
+\[
+ F(s)=3+s+\frac{(J-2)^2}{4J},\qquad
+ P(s)=F'(s)=\frac32+\frac s2-\frac{2(s+1)}{J^2}.
+\]
+For a fixed metric write $D_w=B+sp$, $p=d_{01}+d_{23}$, $B\le3$.
+If $p\le1$ the flat line already bounds $D_w$ throughout. Otherwise
+the excess on the flat interval increases. On the remaining part $P$
+increases from $1$ to $14/9$, since
+$P'=1/2+[8(s+1)^2-2J]/J^3>0$. The equal-weight endpoint is known
+\cite{Jiang}. An interior positive maximum must therefore have $p=P(s)$.
+The certificate tests this identity on the larger closed interval
+$[11/16,1]$.
+
+Here and below a box certificate gives an implication over all real points
+in a specified closed box. In the binary certificate the root is the
+product of this parameter interval with all ten distance intervals
+$[0,1]$. The symmetry interchanging the two light edges allows
+$d_{01}\le d_{23}$. On a parameter subinterval $[l,r]$ the necessary
+condition $P(l)\le p\le P(r)$ contracts these distances. Direct leaves
+prove $4J D_w\le4J(3+s)+(J-2)^2$. Alternatively single out a center
+$C$ and alternately group the remaining path into $A,B$. Write $X,a,b$
+for the weights crossing $AB,AC,BC$. Choose within-group nonnegative
+weights $g_i$ with sums $U,V>0$ in $A,B$. Test copositivity with masses
+\[
+ M_C=abUV,\qquad M_i=XaVg_i\ (i\in A),\quad M_j=XbUg_j\ (j\in B).
+\]
+The verified inequality
+$4Xab(UV)^2 D_w\le4\sum_{i<j}M_iM_jd_{ij}$ gives
+$D_w\le(Xa+Xb+ab)^2/(4Xab)$. At centers touching a light edge the
+right side is the analytic curved expression $F(s)$, including on the
+enlarged test interval. At the other center the triple is $(1+2s,1,1)$.
+Its curved value is its rectangular exponent, at most the curved
+expression for $(2+s,1,s)$ by majorization and the positive-part formula.
+The $g_i$ may be weighted degrees, including degrees after deleting an
+incident light edge. Only the verified inequality and nonnegativity
+of the chosen masses enter the implication.
+
+All leaf goals are polynomial in the parameter, of degree at most eight,
+with coefficients affine in the ten distances. The checker interpolates
+the polynomial exactly at distinct rational points in each subinterval
+and changes to its Bernstein coefficients. Their corresponding
+inequalities imply the polynomial inequality, since the Bernstein basis
+is nonnegative and sums to one. Each affine inequality is bounded by a
+stored nonnegative rational combination of triangle inequalities,
+copositivity samples, odd closed-walk bounds from \cite{Jiang}, and
+boxwise affine bounds on Ptolemy and the four-point mixed difference.
+In making these rows, products of bounded variables can be replaced by
+the appropriate lower or upper affine bounds obtained from
+$(x-l)(y-k)\ge0$, $(L-x)(K-y)\ge0$ and their mixed-endpoint
+counterparts. For bounds of the form $|\Delta|\le2st/\rho$, use a
+positive lower bound on $\rho$ and upper bounds on the numerator.
+The residual affine functional is maximized coordinatewise on the box.
+This explains why the multipliers certify the result regardless of how
+they were found. The distributed \texttt{c5\_two\_light\_all/check.py}
+in the preceding certificate archive checks ten parameter splits,
+70 distance splits, 65 direct leaves, 16 mass leaves, and 3,016 rational
+multipliers. Each split includes both closed children.
+
+\subsection{A four-point calculation used at the remaining maxima}
+
+Number the vertices cyclically $0,\ldots,4$, put $C=3$ and write the
+weights as $(x,y,a,b,H)$. Thus $(a,b)$ is the chosen contact,
+$X=x+y+H$. In the two rows $0,2$ and columns $1,4$ the path weight
+matrix and the four cross distances are
+\begin{equation}\label{eq:pent-matrix}
+ \begin{pmatrix}x&H\\y&0\end{pmatrix},\qquad
+ \begin{pmatrix}c'-A&c'\\c'-B&c'+D+\Delta\end{pmatrix},\quad D=A-B.
+\end{equation}
+Write $\sigma=d_{02},\ \theta=d_{14}$. A row sample picks $2$ with
+probability $f$, a column sample picks $4$ with probability $h$,
+independently. Let $W$ be $X$ times the expected cross distance plus
+$a,b$ times the respective expected distances to $C$. Copositivity
+at total masses $Xa,Xb,ab$ in rows, columns and center yields
+\begin{equation}\label{eq:pent-fund}
+ W+\frac{Xa}{b}f(1-f)\sigma+\frac{Xb}{a}h(1-h)\theta
+ \le \frac{(Xa+Xb+ab)^2}{4Xab}=K .
+\end{equation}
+Subtracting $W$ from the true objective gives the exact cross contribution
+\[
+ (y-Xf)D+(H-Xh)A-Xfh\Delta,
+\]
+and spoke differences $a(1-f)(d_{2C}-d_{0C})+
+b(1-h)(d_{4C}-d_{1C})$. Bounding these differences by $\sigma,\theta$
+leaves coefficients $XfhR_A,XfhR_B$, where
+\begin{equation}\label{eq:pent-R}
+ R_A=\frac ab\frac{1-f}{h}\left(1-\frac b{Xf}\right),\qquad
+ R_B=\frac ba\frac{1-h}{f}\left(1-\frac a{Xh}\right).
+\end{equation}
+In particular, if the first two cross terms sum to at most zero,
+$R_A\sigma+R_B\theta\ge2\sigma\theta/c'$ suffices by the four-point
+mixed-difference bound.
+
+In the unique-minimum flat case scale $K=S-m=1$. The harmonic threshold
+now satisfies $m=t(1-t)$ and $X=m+t+H=m+r^2$, with conic coordinates
+$p,q,r$ for $a,b,X$. As $H\ge t$ and $a,b>m$, $1\ge2t+2m$ gives
+$t\le1-1/\sqrt2<3/10$. Since $r^2\ge2t$ and $p,q<t$
+(from $a,b<t$), $p+q<1/2$. For $t\le1/4$ use $p,q<t$, and otherwise
+use $r\ge\sqrt{2t}$. The identity
+$t(1-t)=(p+q)(1-p-q)+pq$ then gives $p+q<t$.
+If $\lambda$ is the cut coefficient, stationarity gives
+$c'=d_{12}=d_{04}$, $a_0=d_{01}=c'-\lambda=\delta+(1-\lambda)r/X$.
+Writing $\epsilon=1-c'$, one has
+$0\le\epsilon<(pq/r)a_0<a_0/30$ and $c'>29/30$.
+Put $B_0=d_{24}$ and $s=a_0+B_0+\sigma+\theta-2c'$.
+Four equal masses give $s\le4\epsilon$. The four sums formed by picking
+one of $a_0,B_0$ and one of $\sigma,\theta$ belong to $[c',c'+s]$
+by triangles. Thus $B_0\le a_0+s$, $\sigma,\theta\le\lambda+s$, and
+$c'^2\le a_0(a_0+s)+(\lambda+s)^2$ by Ptolemy. This implies
+$2a_0\lambda\le s(c'+\lambda+s)$ and
+$\lambda<(1+\lambda+2/15)/15$, whence $\lambda<1/12$.
+Now $\sigma,\theta<13/60$ and
+$\sigma+\theta\le4\epsilon+2\sigma\theta/c'$, so
+$\sigma+\theta<116/675$. In \eqref{eq:pent-matrix} take
+$x=m,y=t,A=\lambda,B=0$, $f=(t+a)/(X+a),h=(H+b)/(X+b)$.
+The two cross terms sum to at most zero. In units $m=1$ we have
+$1\le a,b\le t\le3/2$, $H\ge t$ and $X=1+t+H$. Hence both
+$(1-f)/h,(1-h)/f\ge(4/5)(8/9)=32/45$, by writing the former as
+$(1+H)(X+b)/[(H+b)(X+a)]$ and the latter analogously. Also
+$1-b/(Xf)\ge a(1-t/X)/(t+a)\ge1/4$, since $t/X\le3/8$,
+and $1-a/(Xh)\ge b(1-t/X)/(t+b)\ge1/4$.
+Thus $R_A,R_B\ge16/135>(\sigma+\theta)/(2c')$. Equation
+\eqref{eq:pent-fund} now bounds $D_w$ by one and excludes this case.
+
+\subsection{Price coordinates and polygon tests for strict contacts}
+
+Scale $K=1$ and put $\nu=S-1<m$. For any winning pair let $p,q,r$
+denote its coordinates \eqref{eq:arms}, the last belonging to $X$.
+Then $X>3\nu$ implies $r^2>2\nu\ge2r(1-r)$, so $r>2/3$ and
+$p^2/\nu\le p/r<1/2$, and likewise for $q$. All winning spokes have
+weight in $(\nu,3\nu/2)$. In particular $m<3\nu/2$. Write
+$u(1-u)=\nu$, $0<u<1/2$. We have $p=ut,q=uv$, $t,v\ge0$,
+$t+v\le1$ by \eqref{eq:contact-caps}. Solving for the second parameter gives
+\[
+ v(u,t)=\frac{2J}{B+\sqrt{B^2-4uJ}},\qquad
+ B=1-ut,\quad J=(1-t)(1-u-ut).
+\]
+Indeed $t+v-u(t^2+v^2+tv)=1-u$. On $0\le v\le1-t$ the left side
+is increasing and its endpoints bracket $1-u$. Implicit differentiation
+gives $v$ nonincreasing in $u,t$, using $t^2+v^2+tv\le1$ and
+$2t+v\le2$. The denominator is positive in the interior. Continuity gives
+the endpoint interpretation, and $t+v\ge1-u$. The spoke weights are
+$W(t)=u[1-u(1-t^2)]$ and $W(v)$, and $X=(1-ut)(1-uv)$.
+Write $e=pq/X$ for the loss from one in the ordinary price. The two
+spoke prices are $1-e-U,1-e-V$ where
+\begin{equation}\label{eq:pent-pen}
+ U=\frac{v[1-u(2t+v)]}{(t+v)X},\qquad
+ V=\frac{t[1-u(t+2v)]}{(t+v)X}.
+\end{equation}
+These are \eqref{eq:contact-prices} after substitution. In particular
+$e\le1/36$ by \eqref{eq:ordinary-price}.
+
+For any mixture let $\bar e$ be the mean of $e$, and let $z_i$ be the
+sum of the two-spoke losses $U,V$ assigned to position $i$ with their
+mixture weights. Equation \eqref{eq:global-normal} fixes all five cycle
+distances as $d_i=1-\bar e-z_i+\delta$, where
+\begin{equation}\label{eq:pent-drift}
+ 0<\delta\le\min\left\{\min_i(\bar e+z_i),\
+                  \bar e+(\sum_i z_i-11/12)/5\right\}.
+\end{equation}
+The second term follows from $\sum d_i\le G_5=49/12$.
+This eliminates five independent metric coordinates.
+
+We give the inequalities used on every parameter box. In the layout
+\eqref{eq:pent-matrix}, $c'=c+\delta$ with $c$ known before adding
+$\delta$. The triangles and equal-mass four-point test give
+\[
+ \begin{gathered}
+ \sigma\ge|D|,\quad\theta\ge|A|,\quad
+ \sigma+\theta+\Delta\le C_0:=4(1-c)+2B,\\
+ \Delta\ge\max(-D-\sigma,-A-\theta,-2\sigma,-2\theta,-1-D).
+ \end{gathered}
+\]
+Indeed the first two lower bounds on $\Delta$ are triangle inequalities
+involving the fourth entry, the next two follow from
+$|\Delta|\le2\min(\sigma,\theta)$, and the last uses $c'\le1$.
+In particular $\sigma\le\min(1,C_0+A)$ and
+$\theta\le\min(1,C_0+D)$. Two further lower bounds are
+\[
+ \Delta\ge-2\sigma\theta/c,\qquad
+ \Delta\ge(AD-\sigma\theta)/(c-A).
+\]
+The first is the mixed-difference estimate, the second is Ptolemy applied
+to $c'(c'-B)\le(c'-A)(c'+D+\Delta)+\sigma\theta$. Use each only with
+positive denominator. Substituting $c\le c'$ is permissible since
+$\sigma\theta\ge|AD|$. If $\sigma\in[l,L]$ and $\theta\in[k,K']$,
+both $k\sigma+L\theta-Lk$ and $K'\sigma+l\theta-lK'$ bound the product
+from above. They give four affine lower bounds on $\Delta$.
+
+Reexpress path weights in units $X=1$ for the next two tests. Under
+$D_w>K$, \eqref{eq:pent-fund} with triangle bounds on the spoke
+differences forces
+\begin{equation}\label{eq:pent-half}
+ \Delta\le\frac{(y-f)D+(H-h)A}{fh}-R_A\sigma-R_B\theta
+\end{equation}
+for each tested $f,h$. In particular one can choose
+$f\in\{y,(y+a)/(1+a)\}$, $h\in\{H,(H+b)/(1+b)\}$.
+The constraints consisting of the affine lower and upper bounds on
+$\Delta$ reduce to half-planes in $(\sigma,\theta)$ by comparing every
+lower bound to every upper bound. On a parameter box it suffices to keep
+the lower endpoint of each coefficient of the nonnegative variables on
+the left and the upper endpoint of the right side. Pairing each lower
+bound on $\theta$ with every upper bound eliminates $\theta$ by positive
+cross multiplication. The resulting rational one-variable constraints
+can be tested against $[l,L]$. Interchanging variables projects to
+$\theta$ instead. An empty polygon excludes the entire box.
+
+Another test retains directional information in the spoke differences.
+Write $y'=d_{12}$ and
+\[
+ k_r=d_{0C}/c',\quad k_c=d_{1C}/y',\qquad
+ j_r=d_{4C}/c',\quad j_c=d_{2C}/y'.
+\]
+Ptolemy gives
+$d_{2C}-d_{0C}\le k_r(D+\Delta)+j_r\sigma$ and
+$d_{4C}-d_{1C}\le k_c(A+\Delta)+j_c\theta$.
+Choosing $f=(y+ak_r)/(1+ak_r)$, $h=(H+bk_c)/(1+bk_c)$ cancels
+the $D,A$ terms. The remaining sufficient condition for $D_w\le K$ is
+\begin{equation}\label{eq:pent-move}
+ \begin{gathered}
+ E_A\sigma+E_B\theta\ge 2|T|\sigma\theta/c,\quad
+ T=-fh+a(1-f)k_r+b(1-h)k_c,\\
+ E_A=a(1-f)(f/b-j_r),\qquad E_B=b(1-h)(h/a-j_c).
+ \end{gathered}
+\end{equation}
+Here substituting the two cancellations
+gives $T=(f+h-fh)-(y+H)=x-(1-f)(1-h)$.
+With lower bounds for $E_A,E_B$ and an upper bound for $2|T|/c$ the
+inequality is bilinear on the distance rectangle, so the four corners
+suffice. The triangle bounds on $d_{0C},d_{1C}$ and
+\eqref{eq:pent-drift} enclose the four ratios whenever their denominators
+are bounded away from zero.
+
+The three-contact verifiers share the five chords $d_{i,i+2}$. A polygon
+bounds two of them by projection and a third by $c+\delta+D+\Delta$.
+Each computed interval is intersected with its current interval, using
+both orientations of each chosen center. The contraction also applies
+ordinary triangles, Ptolemy on each four-set, and nonnegative
+copositivity tests, including $q\in\{0,1,2\}^5$. Additional consequences
+used in the contraction are
+\[
+ d_{ij}\le(\sqrt{1-d_{ik}}+\sqrt{1-d_{jk}})^2,\qquad
+ d_{ij}\le(\sqrt{b(1-a)}+\sqrt{a(1-b)})^2
+ \quad(d_{ik}\ge a\ge\tfrac12,\ d_{jk}\ge b\ge\tfrac12).
+\]
+For the first take half the mass at $k$ and optimize the division of
+the other half. For the second take masses $v,w$ at $i,j$ and
+$(2a-1)v+(2b-1)w$ at $k$, and optimize $v/w$. For two disjoint pairs
+of distances $a,b$, the four cross distances sum to at most
+$2+2\sqrt{(1-a)(1-b)}$ by giving equal masses within each pair and
+optimizing their ratio. All contractions are necessary inequalities.
+Any finite number of sweeps preserves every possible metric.
+
+\subsection{Analytic boundaries of the strict certificates}
+
+We spell out the boundaries treated analytically by the checkers.
+Here $X$ has not been scaled to one, unless stated. Suppose first that
+the only two gradients used correspond to the disjoint contacts
+$(x,y),(a,b)$ with masses $\eta,1-\eta$, the latter principal.
+The ordinary edge $04$ has price $c'>24/25$, and $0\le A,B\le\eta$.
+The mixed difference and four equal masses imply
+\[
+ \sigma,\theta\le4(1-c')+3\eta,\qquad
+ \sigma+\theta\le 4(1-c')+2\eta+2\sigma\theta/c'.
+\]
+Since the spoke price $p/(\nu+p^2)$ increases for $p^2<\nu$,
+$x\le y$ implies $A\ge B$. Take
+$f=(y+a)/(X+a),h=(H+b)/(X+b)$ in \eqref{eq:pent-R}.
+Both drift terms are then nonpositive. In units $\nu=1$,
+$1<x,y,a,b<3/2$ and $H\ge y,a$. Hence
+\[
+ \begin{gathered}
+ \frac{(1-f)(1-h)}{fh}
+ =\frac{x+H}{H+b}\frac{x+y}{y+a}\ge(4/5)^2,\\
+ 1-\frac b{Xf}\ge\frac{a(1-y/X)}{y+a}\ge1/4,\qquad
+ 1-\frac a{Xh}\ge\frac{b(1-a/X)}{a+b}\ge8/35 .
+ \end{gathered}
+\]
+Use $y/X\le3/8$, $a/X\le3/7$. Thus $\sqrt{R_A R_B}>19/100$.
+For $\eta\le1/24$, writing $E=4/25+3\eta$ gives
+$(\sigma+\theta)/(2c')\le(4/25+2\eta)/[2(c'-E)]<19/100$.
+AM--GM and \eqref{eq:pent-fund} finish this case.
+
+If $x>y$, take $f=y/X$ and keep $h$. The row drift vanishes and the
+column drift is nonpositive. Now $a\ge x>y\ge b$, $R_A\ge0$, and
+\[
+ R_B\ge\frac{2b^2(X-a)}{a(a+b)(X+b)}
+ =\frac{2(1+Q)(1-P)}{(2+P+Q)(1+2P+Q)},\qquad P=p/r,\ Q=q/r .
+\]
+The inequality follows from $x+y\ge2y$ and $H\ge a$ in
+\eqref{eq:pent-R}. This last expression is at least
+$8PQ/(1+P+Q)+1/32=8pq/r+1/32$. For a fixed ratio $P/(P+Q)$ its two
+factors decrease as $P+Q$ increases, whereas the proposed lower bound
+increases. At $P+Q=1/2$ the difference has positive denominator
+$480(2P+3)$ and numerator
+$5120P^3+5888P^2-5790P+1107$. Its cubic Bernstein coefficients on
+$[1/4,3/8]$ and $[3/8,1/2]$ are respectively
+$(215/2,347/12,1,135/4)$ and $(135/4,133/2,1919/12,324)$.
+Since $c'\ge r/X-\eta/25$ and both base prices exceed $24/25$,
+$(1-c')/c'\le pq/r+\eta/20$. Therefore
+$2\sigma/c'\le8pq/r+7\eta\le R_B$ for $\eta\le1/224$.
+This proves the two near-endpoint tests in the disjoint verifier.
+
+For the three-contact families we also give the estimate when one
+coefficient is at least $1-\eta$ with $\eta\le2^{-26}$. It covers mixtures
+with arbitrary remaining support. We may assume $u\ge1/64$ since
+$S/m>(1+\nu)/(3\nu/2)>12$ otherwise. Take the principal fold as
+$(a,b)$ in \eqref{eq:pent-matrix}. Since the ordinary prices are
+$\ge35/36>28/29$, all three path prices are $\ge28/29-\eta$ and their
+pairwise differences at most $\eta$. Thus
+\[
+ \sigma,\theta\le4/29+7\eta,\qquad
+ \frac{\sigma+\theta}{2c'}\le
+ \frac{4/29+6\eta}{2(28/29-\eta-4/29-7\eta)}<9/100
+ \quad(\eta\le1/1000).
+\]
+Indeed use the four-point inequalities above with
+$|A|,|B|,|D|\le\eta$. Temporarily replace the path weights by
+$(0,X/2,X/2)$, at objective cost at most $X\eta$. With
+$f=(X/2+a)/(X+a),h=(X/2+b)/(X+b)$ the absolute total drift is
+at most $X\eta$. In units $\nu=1$, $X>3$, $1<a,b<3/2$,
+$1/2\le f,h\le2/3$, and $Xf,Xh\ge15/8$ by monotonicity in $X,a,b$.
+Thus $\sqrt{R_A R_B}\ge1/10$, since $(1-f)/f,(1-h)/h\ge1/2$,
+and $R_A,R_B\ge1/15$. The mixed difference uses at most $9/10$ of
+$R_A\sigma+R_B\theta$. If $D_w>K$, \eqref{eq:pent-fund} consequently
+forces $Xfh(\sigma+\theta)/150\le2X\eta$, or
+\begin{equation}\label{eq:pent-tiny}
+ \sigma+\theta\le1200\eta .
+\end{equation}
+
+We need the directed price comparisons $d_{2C}\le d_{04}$ and
+$d_{4C}\le d_{12}$. The adjacent-pair comparison gives $H\ge a$ and
+$y\ge b$. Write $h_*=r/X$ and $s_a=p/a$. In the representation by
+common ordinary price minus spoke losses, the loss at position $2$
+is at least $(1-\eta)(h_*-s_a)$. That at $04$ is at most
+$\eta(1-s_a)$ by monotonicity of the spoke price. The ratio
+$(1-h_*)/(h_*-s_a)=p(p+q)/(r-p)<1/3$, so the first loss is at least
+the second for $\eta\le3/7$. Interchange the two spokes for the second
+comparison.
+
+In the directional test \eqref{eq:pent-move} the probabilities for general $X$ are
+$f=(y+ak_r)/(X+ak_r), h=(H+bk_c)/(X+bk_c)$.
+When $j_c>1$ and $A\ge0$, increase $h$ to $\max(h,aj_c/X)$.
+When $j_r>1$ and $D\ge0$, increase $f$ to $\max(f,bj_r/X)$.
+They remain conditional probabilities ($X>3\nu$, $a,b<3\nu/2$ and
+$c',y'>19/20$), and these changes only decrease the respective drifts.
+The residual coefficients are $E_A=a(1-f)(Xf/b-j_r)$,
+$E_B=b(1-h)(Xh/a-j_c)$ and
+$T=-Xfh+a(1-f)k_r+b(1-h)k_c$.
+By the directed comparisons at most one of $j_r,j_c$ exceeds one.
+If $j_c>1$ and $A<0$, then $\sigma\ge-D\ge d_{2C}-d_{12}$, so any
+loss in $E_B\theta$ is at most $(b/y')\sigma\theta\le2\nu\sigma\theta$.
+If $j_r>1$ and $D<0$, the symmetric loss is bounded in the same way
+by $\theta\ge-A\ge d_{4C}-d_{04}$. All other coefficients are
+nonnegative since $Xf\ge y\ge b$ and $Xh\ge H\ge a$.
+
+The smaller of the principal spoke prices is at most $3/5$. Indeed, for $p\le q$,
+$p/(p+qr)\le1/(1+r)\le3/5$. Its actual price is at most
+$3/5+\eta+\delta$ with $\delta\le1/29+\eta$, using a path price
+$\le1$. Thus one slope $j_r,j_c$ is at most $3/4$. Its probability
+was not increased. Since $\nu\ge63/4096$, $X\le1\le66\nu$,
+$X-y,X-H\ge2\nu$, and $k_r,k_c\le20/19$, the corresponding good
+coefficient is at least $(\nu/4)(2/69)=\nu/138$. Also
+$|T|\le70\nu$ and $|\Delta|\le3\sigma\theta$. The good coefficient,
+times its chord, covers the resulting $212\nu\sigma\theta$ by
+\eqref{eq:pent-tiny} and $212\cdot138\cdot1200\cdot2^{-26}<1$.
+This excludes the indicated closed neighborhood of every pure gradient.
+
+\subsection{The three finite parameter covers}
+
+\paragraph{Two disjoint pairs.}
+In $(x,y,a,b,H)$ reflect and interchange the pairs if necessary so that
+$(a,b)$ has mass $1-\eta\ge1/2$. Use $t_-$ for $x$, $t_+$ for $a$ in
+\eqref{eq:pent-pen}. $0\le t_-\le t_+\le1$. Given these and $u$, both
+partner weights are determined, and $H=1+\nu-x-y-a-b$.
+The losses at the five positions are, in cyclic order,
+\[
+ (\eta U_-,\,\eta V_-,\,(1-\eta)U_+,\,(1-\eta)V_+,\,0).
+\]
+If $u\le1/64$ the total bound applies. If $\eta\le1/224$ or
+$\eta\le1/24,\ t_-\le v(u,t_-)$, the disjoint analytic estimate above
+applies. Everything else is contained in the closed box
+$[1/64,1/2]\times[0,1]^2\times[1/256,1/2]$.
+The verifier tries the half-plane inequalities at every oriented three-edge
+arc, and \eqref{eq:pent-half} at either winning pair. To limit interval
+overestimation it uses identities such as
+$y-f=-a(1-f)$ for $f=(y+a)/(1+a)$, and
+$1-b/f=[y-b+a(1-b)]/(y+a)$ in units $X=1$.
+Inconsistent order bounds can discard a box. The two closed children of
+every other box are retained until the necessary polygon is empty or the
+analytic leaf applies. The exact replay visits 65,833 nodes, including
+32,917 leaves, to depth 34.
+
+\paragraph{Three consecutive pairs.}
+The pattern $(a,b,a,b,H)$ has one shape $(u,t)$ common to all contacts,
+with the spokes interchanged in the middle one. Reflecting interchanges
+$a,b$ and the two exterior contacts. All gradient mixtures are covered by
+\[
+ (\lambda_0,\lambda_1,\lambda_2)=((1-L)j,L,(1-L)(1-j)),
+ \quad 0\le L\le1,\quad 0\le j\le1/2 .
+\]
+The five losses are
+$(\lambda_0 U,(1-\lambda_2)V,(1-\lambda_0)U,\lambda_2 V,0)$.
+For $u\le1/16$, $\nu\le15/256<1/17$ and
+$S/m>(1+\nu)/(3\nu/2)>12$, so the large-total theorem applies.
+Also $\nu\le 5/G_5-1=11/49<(11/32)(21/32)$. The closed root is
+therefore
+$[1/16,11/32]\times[0,1]\times[0,1]\times[0,1/2]$
+for $(u,t,L,j)$. The code contracts the shared chords using the polygon
+and metric tests, with the four choices in \eqref{eq:pent-half} and the
+bilinear test \eqref{eq:pent-move}. Here $\delta\le e$ since the last
+position has zero spoke loss. The finite cover contains 133,325 nodes,
+66,663 leaves, and has depth 23.
+
+\paragraph{Two consecutive pairs and a separate pair.}
+Write $w=(A,B,A,C,D)$ as above and $p_E=\sqrt{E-\nu}$. Define
+$t=p_A/(p_A+p_B)$ and $v=p_C/(p_C+p_D)$, so that
+$1/2\le v\le t\le1$. For $s\in[1/2,1]$, put
+\[
+ c_s=1-s(1-s),\qquad z_s=\frac{2\nu}{1+\sqrt{1-4c_s\nu}} .
+\]
+Then the two conic coordinates are $sz_s,(1-s)z_s$, since their sum
+is the small root of $\nu=z_s-c_sz_s^2$. The total weight equation is
+\[
+ 4\nu+\big(2t^2+(1-t)^2\big)z_t^2+
+              \big(v^2+(1-v)^2\big)z_v^2=1.
+\]
+On $0\le\nu\le1/4$ the left side strictly increases from zero to more
+than one. It is also nondecreasing in $t,v$. Opposite corners of a shape
+box and directed bisection therefore enclose its unique possible $\nu$.
+The gradient shares of $AB,BA,CD$ are $((1-h)l,(1-h)(1-l),h)$.
+The root $[1/2,1]^2\times[0,1]^2$ for $(t,v,h,l)$ covers every case.
+With $p=sz_s,q=(1-s)z_s,r=1-z_s,X=(1-p)(1-q)$, the ordinary loss is
+$pq/X$ and the additional spoke losses are $(1-s)(r-p)/X,s(r-q)/X$.
+The verifier forms \eqref{eq:pent-drift} with these values. It uses the
+polygon, metric, directional and near-pure tests proved above.
+
+There is one additional two-class test for this pattern. Delete the edge
+of weight $B$, put $X_0=2A+C+D$, and arrange the remaining path as rows
+$U,Z,V$ and columns $I,J$ with weight matrix
+$\left(\begin{smallmatrix}A&0\\ C&D\\0&A\end{smallmatrix}\right)$.
+Set $q_1=(A+C)/X_0,\ q_2=(A+D)/X_0$, $k=A(1-A/X_0)$ and
+$\lambda=\max(1,B/k)$. Let $\rho>0$ bound all cross distances below and
+$\alpha$ bound the row diameter above. Comparing the path contribution
+with the independent product of row and column marginals gives error
+\[
+ A q_2(F_U-F_Z)+Aq_1(F_Z-F_V),\qquad F_Y=d(Y,I)-d(Y,J).
+\]
+Its absolute value is at most
+$2A[q_2d(U,Z)+q_1d(Z,V)]d(I,J)/\rho$ by the mixed-difference bound.
+The general independent-marginal expansion also bounds it by
+$4X_0\alpha q_1q_2d(I,J)/\rho$.
+Thus either $4\lambda\alpha\le\rho$ or
+$2\lambda(A/X_0)(d(U,Z)/q_1+d(Z,V)/q_2)\le\rho$ pays the error
+from the column budget $X_0q_1q_2d(I,J)/\lambda$.
+If $r_i$ are the row probabilities, triangle inequalities give
+$X_0\sum_{i<j}r_ir_jd(i,j)\ge k\,d(U,V)$ because the endpoint
+probabilities both equal $A/X_0$. Testing copositivity with class
+mass ratio $\lambda:1$ now gives
+$D_w\le X_0(2+\lambda+\lambda^{-1})/4+(B-\lambda k)d(U,V)$.
+For $B\le k$ this is at most the cut $X_0$. Otherwise it is
+$\Omega(X_0-A,A,B)$, since the pair $AB$ wins on the curved branch.
+This proves the additional leaf rule.
+
+\paragraph{Verification and conclusion.}
+The three programs in \texttt{five\_disjoint/},
+\texttt{five\_consecutive/}, and \texttt{five\_isolated/} construct
+both closed children of each required subdivision. They do not rely
+on a sampling or a floating-point optimizer. A coordinate initially
+confined by an order condition is intersected with that condition.
+Every operation on an interval uses outward endpoints on the
+$2^{-30}$ grid. Products and divisions use integer floor and ceiling,
+and square roots are bounded by integer square comparisons. The
+disjoint and isolated versions use arbitrary-precision Python integers.
+The consecutive C implementation uses checked signed 128-bit
+intermediates, checked narrowing and an overflow-checking build.
+The isolated replay with seven initial subdivision levels visits
+15,741 nodes and 7,871 leaves, to depth 25. In their respective
+directories the commands are
+\begin{verbatim}
+python -B verify_disjoint.py
+python -B replay.py
+python -B verify_isolated.py --workers 4
+\end{verbatim}
+Induction up each finite binary tree proves the exclusion on the
+entire stated root box. Together with the analytic boundary cases,
+these are exactly the terminal alternatives at a hypothetical positive
+maximum. Therefore every real weighted pentagon satisfies
+$\Gamma(w)=L_3(w)$.
+
+\section{The seven-cycle}\label{sec:seven}
+
+Write $K=L_3(w)$, $D_w=\sum_i w_i d(i,i+1)$, and
+$P=\max_{i,j}d(i,j)=1-r^2$. We will prove
+\[
+                    \Gamma(w)=K\qquad(n=7).
+\]
+Two different quantifiers occur in the proof. For $P\le501/512$ we prove
+$D_w\le K$ for every spectral metric and every nonnegative weight vector.
+For $r\le3/20$ we rule out a positive global maximum of
+$(\Gamma-K)/\sum_i w_i$. These closed regions overlap.
+
+\subsection{A finite set of weights for all metrics of bounded diameter}
+Put $p_i=d(i,i+1)$, $S=\sum_iw_i$ and $m=\min_iw_i$. For $P\le501/512$
+we claim the pointwise estimate
+\begin{equation}\label{eq:seven-polar}
+ D_w\le\max\left\{S-m,\ \frac{99}{100}S
+          -\frac{11}{25}\min_i(w_i+w_{i+1})\right\}\le K.
+\end{equation}
+The first term on the right is the maximum cut. For the second, the optimal
+supporting plane of the convex rectangular exponent at $(5,1,1)$ has
+coefficients $99/100,11/20,11/20$. Indeed,
+$\Omega(X,1,1)=X+1+1/(4X)$ near $X=5$, and symmetry and Euler's identity
+give the other two coefficients. Applying this plane to each adjacent
+fold proves the last inequality in \eqref{eq:seven-polar}.
+
+Let $c_i=1-p_i$, and first assume the $w_i$ are positive. Divide them by
+\[
+ Z=\min\left\{\min_i w_i,\
+       \min_i\big[S/100+11(w_i+w_{i+1})/25\big]\right\}>0 .
+\]
+The resulting vector belongs to the polyhedron
+\[
+ y_i\ge1,\qquad Y+44(y_i+y_{i+1})\ge100\quad(0\le i<7),
+       \qquad Y=\sum_j y_j .
+\]
+It suffices to prove $\sum_i c_i y_i\ge1$ on this polyhedron. Since
+$c_i\ge11/512$, its nonempty feasible objective sublevel sets are compact,
+and a minimum occurs at a vertex. There are three dihedral orbits of vertices, represented by
+\begin{equation}\label{eq:seven-three-vertices}
+ (20/19,\ldots,20/19),\quad(1,1,1,1,1,1,6),\quad
+ (1,h,1,h,1,h,h),\qquad h=53/48 .
+\end{equation}
+
+Here is a classification. For $Y>12$ every pair inequality is slack,
+and the lower coordinate bounds alone cannot give such a vertex. At $Y=12$,
+if two entries exceed one we can transfer a sufficiently small amount between
+them in either direction. All tight pair constraints then involve two
+coordinates equal to one. Thus the only possible orbit at $Y=12$ has one
+entry six. For $Y<12$ set $a=(100-Y)/44>2$. Tight adjacent pairs satisfy
+$y_i+y_{i+1}=a$. With no coordinate equal to one all seven pairs must be
+tight. The odd cycle forces equal entries $20/19$. Otherwise the tight pairs
+form paths, with isolated sites counted as paths. The whole cycle cannot be
+tight in this case. A path containing an entry one alternates $1,a-1$, with
+all its ones on one parity class. On any path without a one, its first entry
+is a further free parameter. Along with $a$, this gives at least two parameters
+before imposing the single equation $Y+44a=100$. A small perturbation in its
+kernel preserves every strict inequality, contrary to extremality. Thus every
+path is anchored at a one. The ones are independent and every other site
+neighbors a one. Consecutive ones have cyclic gaps two or three, and the
+only decomposition of seven by such gaps is $2+2+3$. The other four entries
+are $h=a-1$ and $3+4h+44(1+h)=100$.
+
+At the uniform vertex, $\sum c_i y_i\ge1$ follows from the unweighted
+seven-cycle theorem $\sum p_i\le121/20$ \cite{Jiang}. At the second vertex,
+$\sum p_i+5p_j\le121/20+5(99/100)=11$. At the third vertex the required
+bound is $\sum y_ip_i\le77/12$. Rotate the labeling to make edge zero
+longest among the cycle edges, then reflect so that $p_1\le p_6$.
+The third orbit has just seven cyclic shifts, including the reflected
+orderings. The following finite certificate proves the bound in all seven
+orientations. If a weight is zero, the first term in \eqref{eq:seven-polar}
+is $S$ and the pointwise claim follows directly.
+
+For each orientation start with $[0,501/512]^{21}$, one coordinate per
+unordered pair. The admissible linear rows are triangle inequalities, the
+indicated cycle-edge orderings, the inequalities
+$4\sum_{i<j}a_i a_jd_{ij}\le(\sum_i a_i)^2$ for specified nonnegative
+integer masses, unweighted closed five-cycles of length at most $49/12$
+on five of the labels, and Ptolemy inequalities with box-dependent affine
+bounds. The pentagon row follows by selecting and reordering the five
+labels in the spectral model \cite{Zhou,Jiang}. For a product $xy$ use
+$xy-(vx+uy-uv)=(x-u)(y-v)$, using like endpoints for the product on
+Ptolemy's left and opposite endpoints for those on its right. For the
+linear objective $f$, a leaf with rows $Ax\le b$ and nonnegative rational
+multipliers $\lambda$ proves the upper bound
+\[
+   b^{\mathsf T}\lambda+
+   \sum_j\max\{(f-A^{\mathsf T}\lambda)_j l_j,
+                (f-A^{\mathsf T}\lambda)_j u_j\}\le77/12
+\]
+on its closed box $[l,u]$. Midpoint splits cover the entire parent.
+The seven trees have respectively $6,8,8,7,5,7,8$ splits and $56$ leaves
+in total. As a separate check, fraction-free elimination and rational back-substitution
+examine all $\binom{14}{7}=3432$ sets of seven tight constraints. There are $2074$ nonsingular bases, of which $1226$
+are feasible, giving exactly \eqref{eq:seven-three-vertices}.
+This proves \eqref{eq:seven-polar}.
+
+\subsection{Metrics attaining the objective with $r\le1/10$}
+Suppose that $d$ attains $\Gamma(w)$ and $D_w>K$. Rescale the weights so
+that $m=1$. Section~\ref{sec:threshold} handles $S\ge11$. We may therefore
+use four closed shells $M\le S\le U=M+1$ with $M=7,8,9,10$. If $P=1$,
+copositivity on masses $(1,1,t)$ at a diameter pair and a third label,
+followed by $t\downarrow0$, puts all labels on the unit geodesic between
+the poles. Integrating its threshold cuts gives $D_w\le S-1$.
+Assume henceforth $P<1$.
+
+Denote the diameter poles by $A,B$. Assign each site to its nearer pole
+(break ties by either choice), and write
+\[
+ d(i,A)=Pz_i+e_i,\qquad d(i,B)=P(1-z_i)+e_i,\qquad 0\le z_i\le1/2,
+\]
+for a site on the $A$ side, exchanging the poles on the other side.
+Set $W_i=Pz_i$. For sites in the same class $d(i,j)\ge|W_i-W_j|$,
+and for opposite classes $d(i,j)\ge P-W_i-W_j$. These follow by
+subtracting the distances to the two poles. A same-class edge has length
+at most $(1+r)/(2(1-r))$ by the lens and Ptolemy bounds of
+Section~\ref{sec:threshold}. Since
+$\sum_i w_i(P-p_i)=SP-D_w<1-Sr^2$, three such edges would require
+\[
+ 3\left(1-r^2-\frac{1+r}{2(1-r)}\right)\le1-7r^2.
+\]
+The reverse strict inequality holds up to $r=3/20$, since after multiplication
+by $2(1-r)$ the difference is $1-7r+8r^2-8r^3$, decreasing on that interval
+and equal to $103/1000$ at its right endpoint. The number of same-class
+edges is odd. Denote the unique such edge by $CY$, put its endpoints in
+the $A$ class and choose their order so $u=z_C\ge v=z_Y$. The root domain
+for each shell is therefore $[0,1/10]\times[0,1/2]^2$ in $(r,u,v)$.
+
+We record the seven-site refinements used with the two- and three-cluster
+estimates of Sections~\ref{sec:geometry} and~\ref{sec:threshold}. Replacing
+an ordinary site $i$ by its nearer pole gives another admissible labeling.
+The objective cannot increase. For an opposite-side neighbor $j$, Ptolemy
+about the poles bounds the loss relative to the replacement by
+$-W_i(1-2z_j)+e_i(1+2e_j/P)$. Taking means with the actual adjacent
+weights gives, whenever $2\bar z<1$,
+\[
+ W_i\le k e_i,\qquad k=(1+2\bar e/P)/(1-2\bar z).
+\]
+The single-site lens
+$e_i(e_i-r^2)\le r^2W_i(1-W_i/P)$ yields $e_i\le r^2(k+1)$ and
+$W_i\le r^2k(k+1)$. If $kr\le1$ we may sharpen the last bound to
+$r^2k(k+1)/(1+r^2k^2/P)$. Indeed, substitute $W_i/k$ in the left
+side when $W_i/k\ge r^2$. When $W_i/k<r^2$ the result holds from
+$kr^2\le P$. The sharpened fraction is increasing in the upper bound on
+$k$ on this domain, since the sign of its derivative is that of
+$2k+1-r^2k^2/P$ and $P\ge391/400$. A neighbor of exceptional type has
+relative mass at most $H/(1+H)$ if all its edge weights are at most $H$.
+The iterations intersect these estimates with the previous upper bounds.
+
+Delete $CY$ to obtain the six-edge path with rows $C,I,J,Y$ and three
+columns between successive rows. Let $N$ be its weight matrix, $X$ its
+total weight and $p_i,q_j$ its normalized row and column masses. In this
+paragraph $p_i$ is a row mass. Set $I_A=\sum_{i<l}p_i p_l d(i,l)$,
+$I_B=\sum_{j<t}q_j q_t d(j,t)$ and
+$E=\sum_{ij}(N_{ij}-Xp_iq_j)d(i,j)$. For row and column pairs with
+different sites, let $\rho$ be a lower bound on the largest of their
+four cross distances. In particular at least one row is different from
+$C$. Write
+\[
+ t_i=\sum_l p_l d(i,l),\qquad T_j=\frac{\sum_iN_{ij}t_i}{Xq_j}.
+\]
+Expand $E$ using the two zero marginals, apply
+$|\Delta_{il;jt}|\le2d(i,l)d(j,t)/\rho$ to each mixed difference and group
+the two orders of each column pair. This gives
+\[
+ |E|\le (2X/\rho)\sum_{j<t}q_jq_t(T_j+T_t)d(j,t).
+\]
+Thus $2\max_{j\ne t}(T_j+T_t)$ is a valid coefficient for the two-cluster
+estimate. To bound it let $R_i$ be the upper bounds on distances of the four
+rows to $A$, and $s_+$ the bound for $d(C,Y)$. Set $D_{ii}=0$,
+$D_{CY}=D_{YC}=\min(s_+,R_C+R_Y)$, and $D_{il}=R_i+R_l$ otherwise.
+When $v$ has a strictly positive lower endpoint neither $C$ nor $Y$ can
+be the $A$ pole. One of $I,J$ is then that pole. Test both choices with
+its radius set to zero and take the larger result. Otherwise retain all
+four upper bounds. The six incidences have multiplicities $(1,2,2,1)$
+and each carries at least unit mass. Hence, writing
+$\bar D_i=(D_{iC}+2D_{iI}+2D_{iJ}+D_{iY})/6$,
+\[
+ t_i\le\bar D_i+
+          (1-6/(U-1))\big(\max_l D_{il}-\bar D_i\big).
+\]
+Every column meets two rows. Each conditional probability is at most
+$(1+U-7)/(2+U-7)$, since an individual edge weighs at most $1+U-7$.
+Use this fraction on the larger of the two bounds for $t_i$ and its
+complement on the smaller, then add the two largest column bounds.
+
+To state the endpoint restriction in the flat case, let $h$ be the
+smaller of the two path-end weights, $t=w_{CY}$, $s=d(C,Y)$ and
+$k_0=h(1-h/X)$. The two-cluster mass ratio $b$ pays for the mixed term
+when $b|E|\le XI_B$, and the triangle inequality gives
+$I_A\ge k_0 s/X$. The resulting bound is
+\[
+ D_w\le X(2+b+b^{-1})/4+(t-bk_0)s .
+\]
+For $t\le k_0$ use $b=1$. In the curved case $t>k_0$, compare this with
+$X(2+t/k_0+k_0/t)/4$. The adaptive choice
+$b=\min(t/k_0,(1-4k_0s/X)^{-1/2})$ suffices by subtraction whenever
+the denominator is positive. The remaining flat case has
+$(t-h)(X-h)\ge ht$. If $X>2h$ this implies
+$t-h\ge h^2/(X-2h)$ and so
+$(t-h)/(t-k_0)\ge X/[2(X-h)]$. The case $X=2h$ is incompatible with
+the flat condition. Hence $b=1$ suffices there when
+$s\le X/[2(X-h)]$. $s\le(U-1)/(2(U-2))$ is a sufficient shell test.
+The implementation checks $X\ge2t$ and the required positive cross
+denominator before applying the two-cluster estimate.
+
+In the three-cluster estimate the singleton is $C$, the row endpoint is
+$Y$, and the column endpoint is the other neighbor of $C$. We spell out how
+its endpoint Lipschitz constants are bounded. If $l$ is the distance
+between two targets and $p_\tau,q_\tau$ are their distances from a
+unit-speed geodesic, CAT(0) first variation bounds the derivative of the
+difference of these distances in absolute value by
+\[
+ \sqrt{[l^2-(p_\tau-q_\tau)^2]/(p_\tau q_\tau)}.
+\]
+Indeed the difference of the two directional cosines is at most twice
+the sine of half the angle between the target directions. The angle is
+at most its Euclidean comparison angle \cite{CAT,BH}. The universal
+Lipschitz bound is two. If $p_\tau\ge L>l$, then
+\[
+ 2-\frac{p_\tau^2-l^2+q_\tau^2}{p_\tau q_\tau}
+ \le 2\big(1-\sqrt{1-(l/L)^2}\big)
+\]
+by minimizing in $q_\tau$. The same estimate applies with $p,q$
+exchanged. Positive bounds for both distances also permit direct interval
+evaluation of the first expression.
+
+For the row estimate, use a relative-arclength geodesic from $Y$ to an
+ordinary row $i$ of length at most $\sigma$, with targets a column $j$
+and $C$, respectively. Let $p_a^\pm,q_a^\pm$ bound the distances at
+endpoint $a=0,1$. In particular $q_0\ge P(u-v)$ and
+$q_1\ge Pu-W_i$. A lower bound $b_0$ for $d(A,j)$ comes from
+$W_j-e_j\le W_j(1-1/k)$ in the preceding relocation estimate (or the
+unconditional projection bound). On a subinterval $[l_0,l_1]$ set
+$B=\max_{l=l_0,l_1}[(1-l)R_Y+lR_i]$. Convexity of distance to $A$
+gives $d(\gamma(l),A)\le B$, whence
+\[
+\begin{split}
+ p_l&\ge\max\{p_0^--l_1\sigma,\ p_1^--(1-l_0)\sigma,\ b_0-B\},\\
+ q_l&\ge\max\{q_0^--l_1\sigma,\ q_1^--(1-l_0)\sigma,\ Pu-B\},\\
+ q_l&\le\min\{1,R_C+B,
+       \max_{s'=l_0,l_1}[(1-s')q_0^++s' q_1^+]\}.
+\end{split}
+\]
+The upper bound one here uses convexity and the endpoint distances.
+Average the eight upper bounds from eight equal intervals to integrate
+the derivative. On the full interval the triangle inequalities also
+give $p_l\ge(p_0^-+p_1^- -\sigma)/2$ and its counterpart for $q_l$.
+The column calculation uses the same full-interval angle bound. In both
+orientations of the three-cluster payment, the ordinary and endpoint
+margins and the share of mixed terms are those of
+Sections~\ref{sec:geometry} and~\ref{sec:threshold}. All these refinements
+only decrease upper bounds on costs.
+
+\begin{center}
+\begin{tabular}{c|r|r|r|r|r}
+$[M,U]$&splits&empty&two clusters&three clusters&depth\\\hline
+$[7,8]$&1651&711&609&332&27\\
+$[8,9]$&4886&603&3170&1114&29\\
+$[9,10]$&1531&323&826&383&21\\
+$[10,11]$&928&211&459&259&18
+\end{tabular}
+\end{center}
+The small-radius checker reconstructs each shell and bisects its recorded
+coordinate with shared rational midpoint. $u\ge v$ is enforced by
+intersection. Empty leaves violate a necessary localization inequality,
+and the other leaves satisfy one of the two sufficient cost tests.
+Every square root and projection bound is rounded outwards with integer
+square roots and rational arithmetic. The table accounts for all $9000$
+leaves. It proves $D_w\le K$ whenever an attaining metric has $r\le1/10$.
+
+\subsection{The contact constraints outside the small-radius branch}
+Suppose there is a positive global maximum of the normalized gap.
+It is attained on the weight simplex and the compact set of spectral
+metrics. A boundary weight gives a path forest and has zero gap. Retain
+an attaining pair and scale its weights to $m=1$. We write
+$\mu=S-K$, $g=1-\mu$. The small-radius result gives $P<99/100$. By
+Section~\ref{sec:contacts}, the distance along each edge is a convex
+combination of the corresponding coordinates of the active supporting
+gradients, plus the same $\delta>0$. The coefficient sum is one and only
+positive coefficients need be retained. Every ordinary (aggregated-edge)
+coordinate of a curved fold is at least $99/100$. A flat cut gives one
+on all edges except the omitted minimum. Hence each position must either
+be used as a spoke of a supported curved fold or be an omitted minimum.
+
+For clarity, the uniform bound on the marked weights is
+\[
+ t_\mu=\tfrac12(K-\sqrt{K(K-4\mu)})\le t_1
+ =\tfrac12(S-1-\sqrt{(S-1)(S-5)}).
+\]
+It follows from the contact arc
+$x+y-x^2-xy-y^2=\mu/K$, where $x=\sqrt{(w_i-\mu)/K}$ and $y$ is
+the partner coordinate. Each coordinate is at most the smaller axis
+intercept $t_\mu/K$, and $\mu+K(t_\mu/K)^2=t_\mu$.
+The sum of two paired weights is at most $\mu+t_\mu$ by maximizing
+at that intercept, as is also shown below. The scale-invariant cut
+bound gives $\mu\le1$.
+
+In fact $\mu<1$. Otherwise $K=S-1$, and if $b$ neighbors any minimum
+then $\Omega(S-1-b,b,1)\le S-1$. Here $S-1-b\ge5$ and $1\le b\le t_1$.
+The rectangular formula therefore requires $b(S-1-b)\ge S-1$, or
+$b\ge t_1$. At the resulting value $b=t_1>1$ a fold using $b$ as
+a spoke lies at the contact intercept, with its other coordinate zero.
+Its spoke price is one, as is its price in any active cut. In all other
+supported folds its price is at least $99/100$. Adding the positive
+common drift gives a distance greater than $99/100$, a contradiction.
+All supported gradients are now strictly curved and every position is a
+spoke of at least one of them. Write $H=\max w_i$. The unweighted
+upper bound $\sum p_i\le121/20$, the lower bound $D_w>K=S-1+g$,
+and $D_w\le\sum p_i+S-7$ give $0<g\le1/20$. Rotation averaging of
+the convex lower bound gives $K\ge121S/140$, hence $\mu/K\le19/121$.
+
+For each active pair, its two excess weights over one sum to at most
+$t_1-1$. Its single-site excesses also obey this bound. On the cycle
+of edge positions join supported partners. Unless the whole cycle is
+joined, the components are paths on at least two sites. A path on $k$
+sites uses at most $\lceil k/2\rceil$ copies of this bound by pairing
+consecutive sites and keeping a possible last one. At most one component
+has odd size, since three odd components would use at least nine sites
+and the total parity is odd. Thus $S-7\le4(t_1-1)$. A full cycle can
+first be opened at any link. Using $t_1(1-t_1/(S-1))=1$ on its smaller
+root, this gives
+\begin{equation}\label{eq:seven-total}
+ 3S^2-26S+19\le0,\qquad 7\le S\le(13+4\sqrt7)/3<787/100,
+ \qquad H\le t_1(7)=3-\sqrt3<317/250 .
+\end{equation}
+Here $t_1$ is decreasing in $S\ge7$. These bounds are necessary at
+the hypothesized global maximum.
+
+\paragraph{The partner ordering.}
+Put $M_0=\mu/K$. On $x+y<1/2$ the contact equation defines the
+strictly decreasing involution
+\[
+ y(x)=\tfrac12\big(1-x-\sqrt{1+2x-3x^2-4M_0}\big).
+\]
+It acts as an order reversal on the finite set of marked weight levels,
+since every level occurs in a supported fold. A neighbor of a given
+weight cannot be smaller than its partner, since replacing the partner by
+that neighbor transfers the difference to the ordinary coordinate.
+At the original curved contact the ordinary derivative strictly exceeds
+that spoke derivative, so its supporting plane would already exceed $K$.
+At least one neighbor is a partner. In ranks $0,\ldots,b-1$ the exact
+ordering condition is consequently
+\[
+ v_i+\min(v_{i-1},v_{i+1})=b-1 .
+\]
+Equivalently translate the center to zero and number the positive and
+negative levels by $1,2,\ldots$ and $-1,-2,\ldots$, omitting zero for
+even $b$. Then $u_i=-\min(u_{i-1},u_{i+1})$. For reference, the nine
+nonconstant words up to rotation and reversal have representatives
+\[
+\begin{gathered}
+(-3,3,-2,2,-1,1,3),\quad(-3,3,-2,2,1,-1,3),\\
+(-2,2,-2,2,-1,1,2),\quad(-2,2,-1,1,-1,1,2),\\
+(-2,2,-1,1,0,0,2),\quad(-2,2,-1,1,1,-1,2),\\
+(-1,1,-1,1,-1,1,1),\quad(-1,1,-1,1,0,0,1),\quad
+(-1,1,0,0,0,0,1).
+\end{gathered}
+\]
+An exhaustive enumeration loops over $b=1,\ldots,7$, begins the rank
+word at zero, fills each of the remaining six entries from
+$\{0,\ldots,b-1\}$, and retains precisely the surjective words satisfying
+the displayed seven equations. Identify rotations and reflections only
+after this test. This procedure also returns the constant word, already
+covered by \cite{Jiang}.
+
+For each representative mark the strictly low levels as low and the high
+levels as high. Alternate the marks on each zero run, allowing each site
+there to pair with a zero neighbor. The list shows three independent lows
+and four highs, with every high next to a low. A minimum has two maximum
+neighbors. After removing one occurrence of $H$, the remaining six
+positions form three partner pairs, at least one of them $(1,H)$.
+Put $t=(1-\sqrt{1-3M_0})/3$ and $h_0=\mu+Kt^2$, the self-partner
+weight whether or not it occurs. For $x\le y$, the sum $z=x+y(x)$ has
+derivative $(x-y)/(1-x-2y)\le0$. The sum of the two weights is
+$Kz(2-z)$, so it belongs to $[2h_0,1+H]$. In particular
+\begin{equation}\label{eq:seven-pairsum}
+             1+2H+4h_0\le S\le3+4H .
+\end{equation}
+The largest weight is obtained by taking $x=\sqrt{g/K}$ and evaluating
+$H=\mu+K y(x)^2$. These formulas enclose the contact parameters directly
+from $S,g$ in the checker. The additional bound
+$S-7\le4K(x^2+y(x)^2)+8(\mu-1)$ follows by the same pairing argument
+as \eqref{eq:seven-total}.
+
+\paragraph{Bounds on participation and on individual weights.}
+The ordinary and spoke prices at an active pair are
+\[
+ p=\left(1+\frac{xy}{1-x-y}\right)^{-1},\qquad
+ q_i=\frac{\sqrt{K(w_i-\mu)}}{w_i}.
+\]
+A lower bound for every $p$ is
+$p_*=(1+(2t)^2/[4(1-2t)])^{-1}$, since
+$xy/(1-z)=M_0/(1-z)-z$ decreases on this branch. For a high site
+$q_i\ge q_*=(2-2t)^{-1}$, using $w_i<2\mu$ and hence monotonicity of
+$q_i$ in the weight. Write $E_*=(2t)(2-2t)$. The paired prices satisfy
+$q_i+q_j=1+q_iq_jz(2-z)$, so a neighboring price obeys
+$q_i\ge(1-q_j)/(1-q_jE_*)$. The inequality extends to nonpartners by
+the ordering above. In particular $q_i\le d_i$, where $d_i=d(i,i+1)$. Indeed, if every participating spoke price exceeded $d_i$, then all the supported
+prices there would exceed it, since ordinary prices exceed $P$. Inverting
+the increasing spoke price on the branch $w_i<2\mu$ now gives
+\[
+ w_i\le\frac{2\mu}{1+\sqrt{1-4\mu d_i^2/K}},\qquad
+ w_i\le\mu+(t_\mu-\mu)d_i^2\le1-g+(67/250)d_i^2 .
+\]
+For the second bound, $q_i=x/(x+y(1-x-y))\ge x/(x+y)$ and
+$x+y\le t_\mu/K$, as above. The inverse formula is increasing in its
+price and in $\mu$ and decreasing in $K$, so one-sided interval
+endpoints may be substituted.
+
+Let $\ell_i$ be the sum of the supporting coefficients using position
+$i$ as a spoke. The participation masses of the high sites sum to one,
+as do those of the low sites. Each supported fold uses exactly one of
+each. At a high position,
+$\ell_i\ge (p_*-d_i)/(p_*-q_i)$. To describe the quantitative
+lower bound on $g$ used during geometric refinement, let
+$P_-\le P\le P_+$ be the current bounds and $D=(p_*-P_+)_+$.
+Charge at least $D/(p_*-q_H)$ to each of two maximum sites and
+$D/(p_*-q_*)$ to the other two high sites. Two special adjacent positions,
+the seam and the other edge incident to $C$, include at least one high.
+If their distance upper bounds are $U_i,U_j$, the additional charge
+on a high site $i$ is at least
+\[
+ \frac{(P_--U_i)_+}{1-\max\{q_*,(1-U_j)/(1-U_jE_*)\}} .
+\]
+This uses $p_*-d_i\ge D+(P_--U_i)_+$ when $D>0$ and $p_*>P$
+otherwise. Use the smaller extra charge obtained by interchanging the
+two positions. All four charges and this extra charge sum to at most
+one. An ensuing bound $q_H\le1-\eta$ on the maximum spoke gives
+$g=q_{\min}^2/K\ge K^{-1}[\eta/(1-(1-\eta)E_*)]^2$.
+Every denominator is checked positive before division. These
+inequalities operate on all masks simultaneously.
+
+To relate the weight estimate to the geometric deficit calculation, write
+$A_0$ for the sum of the excess weights on the two edges at $C$, let
+$\zeta$ lower-bound both their deficits $P-d_i$, and put
+$c=\min(1,2\zeta)$, $G=1/[4(S-2)]$. The adjacent rectangle supporting
+plane at $(S-2,1,1)$ gives $K\ge S-1+G-A_0/2$.
+Thus the excess plus these two charges is at least
+$\max(g,G-A_0/2)+\zeta A_0\ge g+c(G-g)_+$. An existing lower
+charge $(S-1)r^2+cG$ may be increased by $(1-c)g$, retaining the
+separate lower charge $(S-1)r^2+g$.
+The remaining sum of extra-weight deficits also satisfies
+\[
+ \sum_i(w_i-1)(P-d_i)\le 1/20-g-(S-7)r^2
+\]
+by the unweighted perimeter theorem. These are the marked refinements of
+the common geometric localization in Section~\ref{sec:geometry}.
+
+Finally, every adjacent fold (even one outside the support) is strictly
+curved here. At fixed $S$, $t_\mu<t_1$ since $\mu<1$. For spokes
+$1\le h\le b<t_1$ the condition for a flat rectangle would require
+$b(S-h-b)\ge h(S-h)$. But
+\[
+ b(S-h-b)-h(S-h)\le b(S-1-b)-(S-1)<0 .
+\]
+The left difference decreases in $h$ here by \eqref{eq:seven-total}.
+The right is strictly negative before the smaller root $t_1$. This
+allows the curved two-cluster test for any seam length $s<1$ in the
+next interval.
+
+\subsection{Signed two-cluster estimates on $1/10\le r\le3/20$}
+Work at the putative positive global maximum described above. At least
+one diameter pair can be selected among adjacent cycle sites. To see this,
+if a diameter pair is nonadjacent, the odd one of the two connecting arcs
+has length three or five. Replace its interior labels alternately by the
+two endpoints, obtaining distance $P$ on every arc edge. This is an
+admissible assignment in the spectral model, so it cannot increase the
+already maximal objective. Since the weights are positive, every arc
+edge originally had distance $P$. Equivalently one can shorten the arc
+to a single edge of its total weight. Its objective agrees with the
+original one, and every three-group assignment of the resulting triangle
+or pentagon extends along the odd arc by alternating its endpoint
+labels. Equal endpoint labels can both be repeated. Thus
+Section~\ref{sec:five} and the triangle formula also rule out a
+nonadjacent diameter pair for a strict gap.
+
+Enumerate the six opposite-class adjacent pairs along the path as potential
+poles. A strictly positive lower bound on $u$ or $v$ excludes the
+corresponding site $C$ or $Y$ as an $A$ pole. For each surviving pair set
+both its $W$ and its lens error to zero and apply two rounds of the
+ordinary-site relocation bound, using the current upper bounds for the
+neighbors and upper bounds on their relative weights. Each site retains
+the smaller of its old and new valid upper bounds. This conditional
+step is performed for every possible pair, and does not assume that the
+two poles are fixed across the whole parameter box.
+
+\paragraph{The signed path calculation.}
+Let $N_{ij}$, $X,p_i,q_j$, $I_A,I_B$, and $E$ be as in the small-radius
+proof, and write $R_i=Xp_i$, $C_j=Xq_j$, $B_{ij}=N_{ij}/(R_i C_j)$.
+Expansion over unordered pairs gives the exact identity
+\[
+ E=\sum_{i<l,\,j<t}\frac{R_i R_l C_j C_t}{X^2}
+ (B_{ij}+B_{lt}-B_{it}-B_{lj})\Delta_{il;jt},\qquad
+ \Delta_{il;jt}=d(i,j)+d(l,t)-d(i,t)-d(l,j).
+\]
+Indeed the four orientations in the twofold centering expansion have
+the signs $+,+,-,-$. A missing path edge has $B_{ij}=0$. For a row
+endpoint the unique nonzero entry is $1/C_j$. An internal edge of
+weight $w$ gives $w/[(w+a)(w+b)]$, where $a,b$ are its neighboring
+path weights. If $1\le w\le H'$, $1\le a\le A'$, $1\le b\le B'$,
+then
+\[
+ \min\{[(1+A')(1+B')]^{-1},H'/[(H'+A')(H'+B')]\}
+ \le B_{ij}\le1/4 .
+\]
+The lower bound follows by unimodality in $w$ and the upper bound from
+$w/(1+w)^2\le1/4$. Combining these intervals with their signs gives
+an upper bound $T_{iljt}$ on the absolute coefficient of $\Delta$.
+
+Write $u_{il},v_{jt}$ for upper bounds on the row and column distances.
+A bound $|\Delta_{il;jt}|\le k_{iljt}d(i,l)d(j,t)$ follows first from
+Ptolemy with $k_{iljt}=2/\max d_{\rm cross}$ using a lower bound on
+the largest cross distance. Four first-variation bounds are available
+as well. Along a column geodesic of length at most $v$, a target row
+whose distances to its endpoints are at least $a,b$ stays at distance
+at least $D=\max(\max(a,b)-v,(a+b-v)/2)$. If the two rows are at
+distance at most $u<D$, the angular bound proved above, divided by the
+actual distance between the two targets and rationalized, gives
+\[
+              k_{iljt}\le D^{-1}
+                    \sqrt{2/(1+\sqrt{1-(u/D)^2})}.
+\]
+The formula increases with $u$. A zero factor makes the mixed difference
+zero. Either row can supply $D$, and row and column roles can be exchanged.
+If every cross distance is at least $a$, points on the shorter geodesic
+stay at distances at least $a-\min(u,v)/2$ from both targets. Thus its
+positive reciprocal is another choice of $k_{iljt}$, by the
+first-variation formula. Take the smallest available bound.
+
+To pay the full mixed term from $XI_B/b$ it suffices to check
+\begin{equation}\label{eq:seven-signed}
+ b\max_{j<t}\sum_{i<l}
+       \frac{R_i R_l}{X}\,T_{iljt} k_{iljt} u_{il}\le1 .
+\end{equation}
+If $R_i\le R_i^+$ and other rows jointly carry at least $c$, one may use
+the smaller of $R_i^+R_l^+/X_-$ and
+$R_i^+R_l^+/(R_i^++R_l^++c)$ for $R_iR_l/X$.
+The mass choice is allowed the adaptive bound from the small-radius
+calculation. Here $k_0/X\le1/4$ and $s\le P<1$, so the denominator is
+positive throughout this range. The check also requires $X\ge2t$
+and a positive cross denominator before accepting the branch.
+Here and below $t=w_{CY}$ and $h$ denotes the smaller path-end weight,
+so $k_0=h(1-h/X)$. As proved above $(X-h,h,t)$ lies on the curved
+branch whenever $t>k_0$. If $t\le k_0$ we use the cut of weight $X$.
+
+\paragraph{Retaining both within-class contributions.}
+For this alternative take $b=\max(1,t/k_0)$ itself. Copositivity applied
+to the two class masses implies that the objective is at most $K$ if
+\[
+              |E|/X+(t/X)d(C,Y)\le b I_A+I_B/b .
+\]
+Indeed the remaining scalar upper bound is $X$ for $t\le k_0$, or
+$X(2+t/k_0+k_0/t)/4=\Omega(X-h,h,t)$ for $t>k_0$.
+
+Every four-point pseudometric is a nonnegative combination of the four
+one-against-three and three two-against-two cuts. For a direct proof
+write $Q_1,Q_2,Q_3$ for the three sums of opposite distances and choose
+a maximizing matching $m$. Assign weight zero to its corresponding
+two-against-two cut and weights $(Q_m-Q_j)/2$ to the other two.
+The residual has three equal opposite sums and hence takes the form
+$x_i+x_l$ off the diagonal. To isolate $x_i$ use the two points $j,k$
+across the maximizing matching's partition. Neither of the two subtracted
+cuts separates $i$ from both $j,k$, hence
+$x_i=[d(i,j)+d(i,k)-d(j,k)]/2\ge0$. Give singleton $i$ this weight.
+Three points use just the three singleton weights given by the same
+semiperimeter differences.
+
+Write $\lambda_G$ for the seven row cut weights and $\gamma_j$ for the
+three column singleton cut weights. For each pair of cuts $(G,j)$ let
+$M_{Gj}$ be an upper bound for the sum of
+$X p_i p_l q_s q_t T_{ilst}k_{ilst}$ over row pairs $(i,l)$
+crossing $G$ and column pairs $(s,t)$ crossing $\{j\}$. The desired
+inequality follows if
+\[
+ \sum_{G,j}M_{Gj}\lambda_G\gamma_j\le
+          \sum_G a_G\lambda_G+\sum_j b_j\gamma_j,\quad
+ a_G=b p(G)(1-p(G))-(t/X)\mathbf1_G(C,Y),\quad
+ b_j=q_j(1-q_j)/b .
+\]
+Here $\mathbf1_G(C,Y)$ equals one exactly when $G$ separates the seam.
+In that case each side has mass at least $h/X$, so $a_G\ge0$
+because $bk_0\ge t$. In particular $a_G$ can be bounded below by the
+larger of zero and
+$b[p(G)(1-p(G))-(h/X)(1-h/X)]$. For a cut that does not separate the
+seam, no seam term is subtracted.
+
+For completeness, the interval bounds in this test can be obtained as
+follows. Each unnormalized row or column marginal lies in $[L_i,U_i]$
+with $L_i$ its path degree and $U_i$ the sum of its incident weight
+upper bounds. Put $X\in[X_0,X_1]$, and sum these bounds over any side
+$G$ to obtain $L_G,U_G$. Then its normalized mass lies between
+\[
+ \max\{L_G/(L_G+U_{G^c}),\ L_G/X_1,\ 1-U_{G^c}/X_0\}
+ \quad\hbox{and}\quad
+ \min\{U_G/(U_G+L_{G^c}),\ U_G/X_0,\ 1-L_{G^c}/X_1\}.
+\]
+Concavity bounds $y(1-y)$ below by the smaller endpoint value.
+With $H_0=\min(U_C,U_Y)$, the mass ratio belongs to
+\[
+ \left[\max\{1,[H_0(1-H_0/X_1)]^{-1}\},       \max\{1,t_+/(1-1/X_0)\}\right].
+\]
+Indeed $k_0$ increases with $h$ on $h\le X/2$, with $X$ at fixed
+$h$, and $1\le h\le H_0<X_0/2$. For two column masses use
+$q_jq_t\le U_jU_t/(U_j+U_t+L_{\rm other})^2$, as well as
+$U_jU_t/X_0^2$. The first expression follows because each upper column
+sum is at most $2(317/250)<4$, whereas the two other column lower sums
+total four, so the quotient increases in either selected marginal.
+
+A cut amplitude is at most every distance across it. When a cut
+separates $i$ from $j,k$ it is also at most
+$[d(i,j)+d(i,k)-d(j,k)]/2$, by evaluating this expression on all
+nonnegative cut rays. The within-class distances use sums of pole
+radii, lower bounds from projection differences, and, via any opposite
+site with incident distances $a,b\ge1/2$, the copositive upper bound
+$(\sqrt{a(1-b)}+\sqrt{b(1-a)})^2$. This function decreases on that
+range, so lower cross-distance bounds suffice.
+Let $L_G^*,L_j^*$ be the resulting upper bounds on the amplitudes.
+Holding the column weights fixed makes the test affine in the individual
+row weights. Maximize first over their box and then maximize the
+resulting convex function over the column box. It suffices to verify
+at each of the eight column vertices that
+\begin{equation}\label{eq:seven-cut-test}
+ \sum_G L_G^*\left[\sum_jM_{Gj}\gamma_j-a_G\right]_+
+              \le\sum_j b_j\gamma_j,qquad \gamma_j\in\{0,L_j^*\}.
+\end{equation}
+The zero vertex is an equality. All arguments allow repeated labels and
+zero cut amplitudes.
+
+\paragraph{Exact coverage of the marked branch.}
+For the slabs $[r_0,r_1]=[1/10,1/8]$ and $[1/8,3/20]$ the roots are
+\[
+ [r_0,r_1]\times[0,1/2]^2\times[0,1/20]\times[7,787/100]
+                  \quad\text{in }(r,u,v,g,S).
+\]
+The end at $r=1/10$ has already been covered. The weight order has
+no additional continuous or discrete coordinate in these trees because the
+participation and pair-sum bounds hold for every order listed above.
+The radius localization and the independent-edge charge bounds of
+Section~\ref{sec:threshold} use $S\ge7$ and the unique same-class edge
+on the present radius range. For precision, let $L$ denote the upper
+allowance furnished by the three edges $CY,CC',YY'$ after subtracting
+the geometric base charge. In the marked branch one uses the larger of
+$B_*+(1-c)g$ and $(S-1)r^2+g$ for the geometric base charge, in the
+interval form of \eqref{eq:wgbstar}. In the separate excess-weight
+bound one uses $(S-1)r^2+g$, so none of the excess is charged twice.
+When reserving $(1-2u)Pz_{C'}$, the contribution $e_{C'}$ on the
+allowance side can be replaced by $2u e_{C'}$ since $Pz_{C'}\ge e_{C'}$.
+The analogous replacement at $Y'$ saves $(1-2v_1)e_B$ from the prior
+upper allowance, where $e_B$ is the current ordinary column error bound,
+and $u_1,v_1$ are box upper endpoints. Thus the geometric allowance
+left for ordinary edge deficits is
+\[
+                L_0=L-(1-2u_1)e_B-(1-2v_1)e_B .
+\]
+This is \texttt{free} in the checker. Its strict negativity excludes
+an entire box.
+\begin{center}
+\begin{tabular}{c|r|r|r|r|r}
+$[r_0,r_1]$&splits&empty leaves&path leaves&total nodes&depth\\\hline
+$[1/10,1/8]$&40&14&27&81&10\\
+$[1/8,3/20]$&1622&60&1563&3245&30
+\end{tabular}
+\end{center}
+Counting splitting axes in the order $(r,u,v,g,S)$ gives
+$(8,16,16,0,0)$ and $(282,379,520,384,57)$, respectively.
+Each child has the same rational midpoint as the other child's adjacent
+endpoint. At a leaf, the checker reconstructs the parameter bounds and
+recomputes its inequality using integer square roots rounded outwards.
+In the first tree a path leaf uses \eqref{eq:seven-signed}. The second
+additionally permits \eqref{eq:seven-cut-test}. Each surviving choice
+of adjacent poles must pass. All $14+60$ empty leaves exit at a strictly
+negative residual ordinary deficit. In particular, neither the optional
+late mask search nor a three-cluster bound certifies any of these
+leaves. With the two supplied trees this excludes every positive global
+maximum for $r\le3/20$.
+
+Finally, $11/512<9/400$, so the pointwise certificate
+\eqref{eq:seven-polar} applies to every remaining
+$r>3/20$ as well. There is no positive global maximum. Together with
+the adjacent-fold lower bound this proves $\Gamma(w)=L_3(w)$ for every
+positive seven-cycle weight vector. Zero weights follow by continuity
+or by opening the cycle at a zero edge.
+
+\section{The nine-cycle}\label{sec:nine}
+
+\begin{theorem}\label{thm:wgnine}
+For every nonnegative real weight vector on $C_9$, $\Gamma(w)=L_3(w)$.
+\end{theorem}
+
+Assume there is a positive maximum of the gap at total weight one.
+Section~\ref{sec:contacts} supplies a maximizing pair $(w,d)$,
+with $w$ interior. Rescale once so that $\min w_i=1$, retaining
+the ordinary prices and the multiplier $\delta>0$ in
+\eqref{eq:global-normal}. Write
+\[
+ K=L_3(w),\quad \mu=S-K,\quad g=1-\mu,\quad M=\mu/K,
+ \qquad P=\max_{i,j}d_{ij},\quad r=\sqrt{1-P}.
+\]
+Theorem~\ref{thm:wglong} settles $r\le1/14$. Hence $P<195/196=p_9$
+for the putative remaining maximum. Every edge must occur as a spoke
+in some positive-mass strict rectangular contact. Indeed the
+all-marked argument in Section~\ref{sec:contacts} first allows a cut
+omitting a minimum, but if $\mu=1$, its neighbor has weight $t_1$.
+All prices on that neighbor, including the boundary spoke price one,
+are at least $p_9$, contradicting \eqref{eq:global-normal}.
+Thus $\mu<1$. Also $g\le1/28$ by
+$D_w\le D_1+(S-9)P\le 8+1/28+(S-9)P$. In particular
+\begin{equation}
+ \sum_e(w_e-1)(P-d_e)\le1/28-g-(S-9)r^2.
+ \label{eq:wg9excess}
+\end{equation}
+We record the initial enclosures and subsequent tests. All indices of
+edges in this section are cyclic.
+
+\subsection{Contact parameters and permissible positions}
+
+The active-pair paths in Section~\ref{sec:contacts} give
+$S-9\le6(t_1-1)$. To recall the count, each contact bounds the
+sum of the two covered excesses by $t_1-1$. A component with $k\ge2$
+positions can be covered by at most $\lceil k/2\rceil\le2k/3$ pairs
+or singleton ends. If all links are present, summing the adjacent
+constraints and dividing by two is even stronger.
+The small root $t_1(1-t_1/(S-1))=1$ and $S\ge9$ then yield
+\[
+ 9\le S\le(54+12\sqrt{14})/10<99/10,\qquad
+ H:=\max_iw_i\le4-2\sqrt2<293/250.
+\]
+Also $M\le9/G_9-1=3/25$, so $S\ge28(1-g)/3$.
+For each position $i$ its spoke price
+$q_i=\sqrt{K(w_i-\mu)}/w_i$ is independent of the contact.
+Writing $x_i=\sqrt{(w_i-\mu)/K}$, one has
+$q_i\ge x_i/(x_i+x_j)$ on any contact with partner $j$ and
+$x_i+x_j\le t_\mu/K$ by \eqref{eq:contact-caps}. Hence
+\begin{equation}
+ w_i\le\mu+(t_\mu-\mu)q_i^2
+       \le 1-g+(43/250)q_i^2 .
+ \label{eq:wg9cap}
+\end{equation}
+For the last inequality,
+$t_\mu-\mu=\mu(1-b)/(1+b)$ with
+$b=\sqrt{1-4\mu/(S-\mu)}$ is increasing in $\mu$ at fixed $S$.
+At $\mu=1$ it is at most $3-2\sqrt2<43/250$.
+One may use any geometric upper bound for $d_i$ in place of $q_i$.
+
+If $x,y$ are partner coordinates, then
+$x+y-x^2-xy-y^2=M$, and $x+y<1/2$. Put
+$z=x+y$, $t=(1-\sqrt{1-3M})/3$, and
+$h=\mu+Kt^2$, the self-partner weight. From
+$M=z-3z^2/4-(x-y)^2/4$ we obtain $z\ge2t$.
+On $x\le y$, implicit differentiation gives
+$(x+y(x))'=(x-y)/(1-x-2y)\le0$.
+Thus $x^2+y^2=2z-z^2-2M$ is largest at a minimum--maximum
+pair. For a specified $x$, its partner is the smaller root
+\[
+ y=\frac{2[M-x(1-x)]}
+ {1-x+\sqrt{(1-x)^2-4[M-x(1-x)]}} .
+\]
+It decreases in $x$ and increases in $M$ on the contact arc, since
+both partial derivatives of $x+y-x^2-xy-y^2$ are positive. This
+encloses $H$ by applying the formula to the minimum coordinate
+$x_{\min}=\sqrt{g/K}$. In an outward evaluation a nonpositive
+numerator is replaced by zero as a lower bound. When the quadratic
+discriminant prevents evaluation at an exterior corner, $1/2$ is an
+upper bound for every legal partner.
+
+Every low position in the labeling of Section~\ref{sec:contacts}
+is separated from the next low by two or three steps. Thus there
+are five or six highs. At least two positions have maximum weight,
+being neighbors of a minimum. The other highs are at least $h$, and
+the remaining lows are at most $h$. Therefore
+\[
+ 9+2(H-1)+3(h-1)\le S\le 1+6H+2h .
+\]
+The path-cover argument with the actual maximal pair sum also gives
+$S-9\le6(H-1)$, bounding the excess of either a pair or a singleton
+by $H-1$. The root enclosures for $g,S,K$ and these inequalities
+are intersected three times before the geometric estimates. Another
+conversion from prices to weights is
+\begin{equation}
+ w(q)=\frac{2\mu}{1+\sqrt{1-4\mu q^2/K}} .
+ \label{eq:wg9weight}
+\end{equation}
+Indeed $q^2w^2=K(w-\mu)$, and $w<2\mu$ because
+$w<293/250$ and $\mu\ge27/28$. This inverse is increasing in
+$q,\mu$ and decreasing in $K$.
+
+At a contact the ordinary price is
+$[1+xy/(1-z)]^{-1}$. Since $xy/(1-z)=M/(1-z)-z$ decreases with
+$z$ throughout the arc, a common lower bound is
+$p=[1+(2t)^2/(4(1-2t))]^{-1}\ge p_9$. The middle spoke price is
+$q_*=(2-2t)^{-1}$ and is a lower bound on each high spoke price.
+The identity
+$q_i+q_j=1+q_iq_j z(2-z)$ yields
+\[
+ q_j\ge m(q_i):=(1-q_i)/(1-q_i E_*),\qquad
+ E_*=(2t)(2-2t).
+\]
+This also holds if the neighboring positions have different partners, since
+each actual neighboring weight is at least the contact partner and
+the price is increasing with weight below $2\mu$. As $m(q)$
+decreases in $q$, an upper bound at one position gives a lower
+bound at either neighbor.
+
+For $P_-\le P\le P_+$ and distance caps $d_i\le U_i$, put
+$D=(p-P_+)_+$. The total participation $\ell_i$ over the highs
+is one, and $\ell_i\ge(p-d_i)/(p-q_i)$. Two maximum positions
+cost at least $D/(p-q_H)$ each, and three other highs cost at least
+$D/(p-q_*)$ each. At least one position $i$ in the adjacent pair
+$CY,CC'$ is high. With $j$ the other, this position incurs an
+additional charge at least
+\[
+ \frac{(P_--U_i)_+}{1-\max(q_*,m(U_j))}.
+\]
+Use the smaller choice of $i$. This follows by splitting $p-d_i$
+into the already charged part $D$ and its geometric improvement.
+If $D=0$, use $p\ge p_9>P$. Any resulting $q_H\le1-b$ implies
+$g=q_{\min}^2/K\ge[b/(1-(1-b)E_*)]^2/K$.
+Here the iteration may use any smaller certified $E_*$, in particular
+$M(2-M)$ since $z\ge M$. If $c=\min(1,2\zeta)$ in
+\eqref{eq:wgbstar}, and $A$ is the sum of local excess spoke
+weights, the combined deduction satisfies
+\[
+ \max(g,G-A/2)+\zeta A\ge g+c(G-g)_+,\qquad
+ G=1/[4(S-2)] .
+\]
+Thus the lower bound for $(S-1)r^2+cG$ can be increased by
+$(1-c)g$, and $(S-1)r^2+g$ remains independently valid.
+
+For clarity, the final participation test can instead enumerate the
+binary high masks of the nine positions, retaining all masks with
+low gaps two or three, and every nonempty subset of lows as the
+minimum positions. A maximum is adjacent to a minimum, every neighbor
+of a minimum is a maximum, and a low with just maximum neighbors
+is itself a minimum. These statements follow from the decreasing
+partner involution. Given one such choice, bound each $q_i$ below
+by $q_{\min}, m(U_{i-1}), m(U_{i+1})$, using also $q_*$ at highs
+and $q_H$ at maxima. Check $q_i\le U_i$, the total weight by
+\eqref{eq:wg9cap} and \eqref{eq:wg9weight}, and the sums of the
+lower bounds for $\ell_i$ on each side. The common multiplier in
+\eqref{eq:global-normal} satisfies
+\[
+ 0<\delta\le\delta_0=(1/[4(S-2)]-g)/S
+\]
+by the independent $J(S,1)$ bound proved in Section~\ref{sec:threshold}.
+If $y$ is the average ordinary price of the active folds plus
+$\delta$, then $y\le1+\delta_0$, and the ordinary price of a fold
+using a minimum is fixed by that minimum and its partner. Therefore
+\[
+ \ell_j\le (1+\delta_0-d_j)/(p-q_{\min})\qquad(w_j=1).
+\]
+For each maximum, its mass cannot exceed the sum of these upper
+bounds for the adjacent minima. Also the sum of all maximum masses
+equals the sum of all minimum masses, since each active contact
+using either extreme pairs the two extremes. Ordinary edges have
+$d_j\ge P-L_0^*$, and each of the three central edges has the lower
+bound from its signed diameter coordinate. These give all upper and
+lower participation tests. A mask is discarded only after a necessary
+inequality fails, and a box is excluded by this enumeration only
+when every mask and every minimum subset fails.
+
+\paragraph{Moving an ordinary site to an anchor.}
+Let $a,b$ be diameter endpoints and let $i$ be ordinary in the $a$ class,
+so that its two neighbors project to the $b$ class.  The same argument
+applies to a $b$ site, including the two sites adjacent to the special
+vertices.  Write $z_i\in[0,1/2]$ and $e_i$ for its projection and lens
+error, so $d_{ai}=Pz_i+e_i$, $d_{bi}=P(1-z_i)+e_i$.  For a $b$-class
+neighbor $j$, the Ptolemy flip estimate minus the actual distance $d_{aj}$
+gives
+\[
+ d_{ij}-d_{aj}\le -Pz_i(1-2z_j)+e_i(1+2e_j/P).
+\]
+Replace the label of site $i$ by $a$.  Regrouping tensor factors by this
+map and using the spectral product formula shows that the new objective is
+at most the original global optimum at this weight.  Averaging over the
+two adjacent weights therefore gives $W_i=Pz_i\le k e_i$ for
+$k=(1+2\overline e/P)/(1-2\overline z)$ whenever the denominator is
+positive.  With the lens inequality
+$e_i(e_i-r^2)\le r^2 W_i(1-W_i/P)$ this implies
+\[
+ e_i\le r^2(k+1),\qquad
+ W_i\le \frac{r^2 k(k+1)}{1+r^2 k^2/P}.
+\]
+For the second claim, if $W_i/k\ge r^2$ substitute $W_i/k$ on the left
+of the lens inequality.  If $W_i/k<r^2$, its conclusion follows either
+from $r^2k\le P$ or directly from $W_i\le P$.  Equivalently, when an
+upper bound $k_+$ is used only with $k_+r\le1$, the first case is
+immediate after rearrangement and the omitted small-$W_i$ case also
+satisfies the estimate (here $r\le1/3$).  The rational expression is
+increasing in $r^2,P$ and in $k$ on $k r\le1$, since its derivative in
+$k$ has the sign of $2k+1-r^2k^2/P$.  Here $P\ge 8/9$.  Cruder use of
+$W_i\le r^2 k(k+1)$ needs no such restriction.  One exceptional neighbor
+has relative weight at most $H/(1+H)$. This gives the weighted bounds on
+$\overline z,\overline e$ without assuming equal adjacent weights.
+
+\paragraph{Two ordinary triples on the nine-cycle.}
+For any three sites with long incident distances $a,b\ge1/2$, copositivity
+gives the upper bound
+\[
+ d_{02}\le \Phi(a,b)=(\sqrt{a(1-b)}+\sqrt{b(1-a)})^2
+ \le(a+b)(2-a-b).
+\]
+Indeed eliminate the center variable from the quadratic whose off-diagonal
+entries are $1-2d_{ij}$ and whose diagonal entries are $1$.  Its minimizing
+center mass is nonnegative for any two nonnegative exterior masses, as
+$a,b\ge1/2$.  The Schur complement must then be copositive on two exterior
+masses.  Its off-diagonal is at least minus the geometric mean of its
+diagonal entries, exactly the first inequality.  The second is
+Cauchy--Schwarz.  The first upper bound decreases in either argument on
+$a,b\ge1/2$.
+
+Take three consecutive ordinary arc edges of lengths
+$a=P-\alpha,b=P-\beta,c=P-\gamma$, with
+$\alpha+\beta+\gamma\le e$ and $P-e>1/2$.  Write $t$ for the chord.
+Ptolemy gives $t\ge(ac-d_{02}d_{13})/b$.  Since
+\[
+ a+b+c-ac/b-2P=-2\beta-
+ \frac{(\alpha-\beta)(\gamma-\beta)}{P-\beta},
+\]
+the excess $a+b+c-t-2P$ is at most
+\[
+ -2\beta+
+ \frac{\beta e+4P^2(2r^2+(e+\beta)/2)^2}{P-\beta}.
+\]
+Here $d_{02}\le2P(2r^2+\alpha+\beta)$ and the corresponding
+bound on $d_{13}$ were combined by AM--GM.  The expression is convex
+in $0\le\beta\le e$, since an affine numerator of positive slope and a
+squared affine numerator divided by $P-\beta$ are convex there.
+Thus its endpoint maximum is
+\[
+ \kappa(e)=\max\left\{4P(2r^2+e/2)^2,
+   -2e+\frac{e^2+4P^2(2r^2+e)^2}{P-e}\right\}.
+\]
+It is convex for $0\le e<P$.  Alternatively
+$a+b+c-ac/b-2P\le0$. Indeed, the displayed formula is nonpositive if the
+product is nonnegative, and if negative its absolute value is at most
+$\beta(P-\beta)$ since one factor has magnitude at most $\beta$ and
+the other at most $P-\beta$.  This yields the simpler upper bound
+$d_{02}d_{13}/(P-e)$.
+
+The six edges disjoint from the three designated central edges form two
+disjoint consecutive triples.  Their total deficit is at most $L$.
+At least one triple has deficit at most $L/2$, and convexity bounds the
+sum of the two $\kappa$ errors by $\kappa(0)+\max(\kappa(0),\kappa(L))$.
+Applying the unweighted $C_7$ or $C_5$ theorem to the retained labels in
+original cyclic order gives
+\begin{align*}
+ (S-7)r^2+g &\le 1/20+\max(\kappa(0),\kappa(L/2)),\\
+ (S-5)r^2+g &\le 1/12+\kappa(0)+\max(\kappa(0),\kappa(L)).
+\end{align*}
+We have used $D_1\ge 8+g+(S-9)r^2$, which follows from $D_w\ge K$
+and $\sum(w_i-1)d_i\le(S-9)P$.  For the simple product alternative,
+the one-triple loss is at most $[4y(1-y)]^2/(P-L/2)$,
+$y=P-L/4$, by using $a+b\ge2P-L/2$ and the fact that $s(2-s)$ decreases
+on $[1,2]$.  On two triples one can use
+$4P^2[(2r^2+L)^2+(2r^2)^2]/(P-L)$ by convexity of the numerator in
+the split of $L$.
+
+\paragraph{Coefficients when both endpoint pairs occur.}
+Use the path notation of the central three-label estimate, with rows $i,l$,
+columns $j,t$, path endpoint row $u$, path endpoint column $v$, edge
+weights $N_{ij}$, row/column norms $r_i,c_j$ and the corrected
+probabilities $f,g$.  In this paragraph we denote the corrected column probabilities by $g_j$,
+so $g_j=h_j$ in \eqref{eq:wgerrors}. In particular $N_{uv}=0$, and $v$
+has only one path neighbor.  Let $\beta$ be an ordinary upper bound on
+intracolumn distances and $\rho_o$ a common ordinary lower bound on the
+strongest cross distance used in the four-point inequality.  The other
+factor on that inequality is $2d_{il}/\rho_o$.  For a fixed unordered
+row pair, divide the remaining numerator bound by $(X+a)f_i f_l$.
+In the case $l=u$ the coefficient of column pairs that contain $v$ is at
+most
+\[
+ \beta\left[(2-\epsilon)g_v+
+             \phi(1-2g_v)_+\right],
+ \qquad
+ \epsilon=\frac{a}{r_u+a},\quad \phi\ge N_{iv}/r_i.
+\]
+Indeed the orientation starting at $u$ permits $t=v$ only and has
+coefficient $1-\epsilon$.  In the orientation starting at $i$,
+conditionally on a non-$v$ column only $t=v$ can contribute, and if the
+starting column is $v$ exactly $t\ne v$ can contribute.  The latter
+case has probability $N_{iv}/r_i$.  Thus the signed expression before
+majorization is $(2-\epsilon)g_v+(N_{iv}/r_i)(1-2g_v)$.
+For an upper bound $G_v$ on $g_v$, the maximum of the positive-part
+bound on $[0,G_v]$ is attained at $0$ or $G_v$ by convexity.  Since
+$a\ge1$ we may use $\epsilon\ge1/(1+r_u)$, with a known upper bound
+on the edge $r_u$.
+
+When $i$ is adjacent to $v$, its other path neighbor $j$ is an
+ordinary column, the two incident distances are at least $P-L$, and
+$d_{vj}\le\Phi(P-L,P-L)$ if $P-L\ge1/2$.  This saves at least
+\[
+ \frac{1}{1+H}\frac{2}{U-1}
+       (\beta-\Phi(P-L,P-L))_+
+\]
+in the displayed coefficient. In the orientation starting from edge
+$(i,v)$ and ending at $j$ its relative probability is
+$(N_{iv}/r_i)g_j\ge(1+H)^{-1}2/(U-1)$, where $U$ is an upper bound
+on $S$ and $H$ is an upper bound on each edge weight.  When $i$ is not
+adjacent to $v$ its coefficient is just $\beta(2-\epsilon)g_v$.
+Taking the larger of these two individual bounds preserves both cases.
+For a pair of ordinary rows at most one can be adjacent to $v$,
+since $v$ is a path endpoint.  Its bound, after division by
+$(X+a)f_i f_l$, is therefore at most
+$\beta[2g_v+\phi(1-2g_v)_+]$, with $\phi\le c_v/(1+c_v)$ available
+as an upper bound on the one fraction.  This expression is nondecreasing
+in $g_v$.  For column costs with a row pair containing $u$, one may
+replace the row diameter $\alpha$ by the smaller of $\alpha$ and
+$R_u+R_A$ because the other row is ordinary.  The arguments interchange
+rows and columns.  Multiplication by $2b(1+a/X)/(a\rho_o)$ gives the
+normalized row budget coefficients. The column factor interchanges
+$a,b$.  An a priori full bound for any of these costs is always available
+by forgetting endpoint membership.
+
+Distribute a summand of the mixed Ptolemy difference to its ordinary pair
+when exactly one of its row and column pairs has an endpoint.  Send a
+fraction $\theta$ of terms having both endpoints to their row pair,
+and a fraction $\theta_0$ of terms having neither endpoint to their row
+pair.  At an endpoint pair there is only its original spoke charge and
+the doubly-endpoint contribution.  If their remaining budgets are $s_A,s_B$
+and the full doubly-endpoint charges are $e_A,e_B$, the split exists
+precisely when $s_A,s_B\ge0$ and
+$s_A e_B+s_B e_A\ge e_A e_B$.  At an ordinary row let $c_A$ be an
+upper bound on the full cost, and let $k_A$ bound the terms having an
+endpoint column pair.  Its assigned cost is bounded by
+$\theta_0 c_A+(1-\theta_0)k_A$.  The column bound uses the complementary
+fraction with $c_B,k_B$.  These inequalities are tested independently for the two choices of
+fraction. The unrestricted allocation in \eqref{eq:wgsplit} gives a
+second sufficient test.
+
+\paragraph{The flat part of the two-cluster case.}
+In the two-cluster notation $t$ is the seam edge weight, $h$ the smaller
+endpoint crossing weight, $X=S-t$, and $k=h(1-h/X)$.  At mass ratio one, Lemma~\ref{lem:wgtwo}
+requires $(t-k)s\le t-h$ when
+$(t-h)(X-h)\ge ht$.  The algorithm first checks $X\ge2t$.  In this
+flat regime $X>2h$ and $t\ge h(X-h)/(X-2h)$.  Since
+$(t-h)/(t-k)$ is increasing in $t$, it is at least $X/[2(X-h)]$.
+If $S\le U$, then $X\le U-1$ and $h\ge1$, so $s\le(U-1)/[2(U-2)]$
+suffices.  The curved-branch mass choice in the same lemma
+applies since $s<1$ and $k/X\le1/4$.
+
+\subsection{The five-parameter certificate}
+
+For the two-class test, a nonzero mixed difference has distinct rows,
+so at least one row is different from $C$. Therefore the largest
+of its four cross distances is at least the cross lower bound after
+deleting $C$. In the three-class test at least one row of a nonzero
+rectangle differs from $Y$, so the ordinary cross lower bound suffices.
+One further use of $\Phi$ tightens the class diameters in that test.
+For a row pair, choose an external edge from an ordinary row in
+the pair to a column site. Its length is at least $P-L$, and the
+distance from the same column to the other row is at least $\rho$.
+For two columns, take an external edge from one column to an ordinary
+row, and use the ordinary cross lower bound for the distance from
+that row to the other column. Each such edge exists by the incidence
+counts following \eqref{eq:wgspecial}. These arguments give respectively
+$\Phi(P-L,\rho)$ and $\Phi(P-L,\rho_o)$ as additional diameter bounds
+when both arguments exceed $1/2$. Here $L=L_0^*$ is the residual
+geometric bound. The three central edges are entered at positions
+$8,0,1$ in cyclic order with the seam at zero, so the enumeration
+above allows every placement of the weights.
+
+The root rectangle for the certificate is
+\begin{equation}
+ [1/14,R]\times[0,1/2]^2\times[0,1/28]\times[9,99/10],
+ \qquad (r,u,v,g,S).\label{eq:wg9root}
+\end{equation}
+Here $R$ starts at the rational upper rounding of $1/3$, and uses the
+three allowed reductions following \eqref{eq:wgspecial} with $M=9$.
+The diameter-count check uses all 64 closed subintervals of the
+initial radius domain. No diameter endpoint or order of the ordinary
+weights is prescribed. The small-radius overlap includes the equality
+$r=1/14$. The weight bounds before \eqref{eq:wg9cap} cover every
+strict all-marked maximum that remains. For example throughout
+\eqref{eq:wg9root} the minimum contact coordinate lies below $0.067$,
+and $M\le3/25$ implies the partner discriminant is positive there, since
+$(1-x)^2-4[M-x(1-x)]=1+2x-3x^2-4M\ge 1-12/25$.
+All enclosing operations use the directed rational square roots
+specified in Section~\ref{sec:threshold}.
+
+The verification in the directory \texttt{general\_nine} is
+\begin{center}
+\texttt{python -B check\_marked9.py nine-marked.json.gz}.
+\end{center}
+It reconstructs the five intervals at every leaf and evaluates the
+geometric, weight and participation tests above. An internal node
+specifies a coordinate and its two midpoint children, including the
+midpoint in both. The accepted leaf counts are
+\[
+ \begin{array}{c|r}
+ \text{Exclusion by a necessary inequality}&174190\\
+ \text{Two-class estimate}&27558\\
+ \text{Three-class estimate}&12068\\ \hline
+ \text{Total}&213816
+ \end{array}
+\]
+The maximum depth is $30$. Thus induction on this stored finite
+tree covers the entire rectangle \eqref{eq:wg9root}. Every
+nonexcluded leaf proves $D_w\le L_3(w)$ by
+the path estimates in Section~\ref{sec:geometry}. This
+contradicts a positive maximum. The boundary of the weight simplex
+has bipartite support, so no other case remains. This proves
+Theorem~\ref{thm:wgnine}.
+
+\section{Consequences and comparisons}\label{sec:examples}
+
+To finish the proof of Theorem~\ref{thm:main}, take any positive weight vector on an odd cycle. Order three is the rectangular theorem. The estimates of Section~\ref{sec:threshold} apply whenever \(S/m\ge11\), which includes every odd \(n\ge11\). The other possible orders are five, seven and nine, covered by Sections~\ref{sec:five}, \ref{sec:seven} and~\ref{sec:nine}. Proposition~\ref{prop:folds} supplies the matching lower bound throughout. Zero weights, even cycles and the integer-dimension interpretation were proved in Section~\ref{sec:spectrum}.
+
+\subsection{A sharp bound in terms of the total and the minimum}
+
+Every fold triple has total \(S\) and all entries at least \(m\), so it is majorized by \((S-2m,m,m)\). For odd \(n\) and \(m>0\), the main theorem gives
+\begin{equation}\label{eq:Jmain}
+ S-m\ \le\ \Gamma(w)\ \le\ J(S,m)
+ := S-m+\frac{m^2}{4(S-2m)}.
+\end{equation}
+If two adjacent edges have minimum weight, their fold attains the upper bound. This describes continuous families for all \(S/m\ge n\). Setting \(w_i=w\) gives \(wG_n\).
+
+There is also a direct test for equality with the maximum cut. For each adjacent fold sort its triple as \(X_i\ge Y_i\ge Z_i\). For \(m>0\), the lower bound in \eqref{eq:Jmain} is attained exactly when
+\[
+  [(X_i+Y_i)Z_i-X_iY_i]_+^2
+   \le 4X_iY_iZ_i(Z_i-m)
+   \qquad\text{for every }i .
+\]
+Indeed this condition is just \(\Omega(X_i,Y_i,Z_i)\le S-m\) after clearing a positive denominator. For \(n=3\) this gives the classical flat branch \(z\le xy/(x+y)\).
+
+\subsection{The copositive pseudometric relaxation}
+
+Let \(\Zhou(w)\) maximize \(\sum_i w_i d_{i,i+1}\) over all pseudometrics satisfying \eqref{eq:cp-main}. Zhou's theorem gives \(\Gamma\le\Zhou\) \cite{Zhou}. To see what is lost by removing the curvature constraint, let \(n=2k+1\ge5\), let \(\ell(t)=\min_{h\in\mathbb Z}|t-hn|\), and put
+\[
+ d_{ij}=\frac{n}{2k(k+1)}\,\ell\bigl(k(i-j)\bigr).
+\]
+This is a scaled shortest-path metric on a relabeled cycle. In those new labels a pair at distance \(s\) in the unscaled cycle is separated by exactly \(2s\) cyclic intervals of \(k\) consecutive vertices. For any probability mass, let \(u_j\) be the masses of those intervals. Their sum is \(k\). Each cut contributes \(u_j(1-u_j)\) to the unordered-pair energy. Concavity therefore gives
+\[
+ \sum_{i<j}t_it_jd_{ij}
+ \le\frac{n}{4k(k+1)}\,n\,\frac kn\left(1-\frac kn\right)=\frac14 .
+\]
+The metric is feasible and every original cycle edge has length \(n/(n+1)\). On the four original vertices \(0,1,2,3\), Ptolemy would require \(k^2\le1+k(k-1)\), which fails for \(k>1\).
+
+For unit weights, rotate and average a maximizer of the relaxation. Its feasible region is convex because even the copositivity constraints are linear in the distances for fixed masses. In the new labels let \(b_h\) denote the common length for hop \(h\). The original edge has hop \(k\). The inequalities \(b_h+b_{k-h}\ge b_k\) for \(1\le h< k\) give \(\sum_{h=1}^k b_h\ge(k+1)b_k/2\). Applying \eqref{eq:cp-main} to uniform masses yields \(\sum_h b_h\le n/4\). The constructed metric attains both bounds, proving
+\[
+ \Zhou(\mathbf1)=\frac{n^2}{n+1},\qquad
+ \Zhou(\mathbf1)-\Gamma(\mathbf1)=\frac{3(n-3)}{4(n+1)(n-2)}.
+\]
+More generally, write \(t=S/m\). The same metric and \eqref{eq:Jmain} show
+\[
+ \Zhou(w)-\Gamma(w)\ge
+ m\left(1-\frac{t}{n+1}-\frac{1}{4(t-2)}\right)>0
+ \quad\text{if}\quad n\le t<\frac{n+3+\sqrt{n(n-3)}}2 .
+\]
+This follows by solving \(4(t-2)(n+1-t)>n+1\). Thus even a strictly feasible improvement over the rectangular lower bound in the relaxed objective cannot by itself disprove the tensor formula.
+
+\subsection{Five- and seven-cycle examples}
+
+Table~\ref{tab:comparisons} uses integer logarithmic weights, so that an entry \(a\) in the first column means dimension \(2^a\). Each row lists weights in cyclic order. Intervals have exact decimal endpoints. The comparison file in the supplement gives all 29 rows, including a maximizing coloring and its rectangle for each input. Its checker enumerates the three-block colorings and independently tests the relaxation bounds using rational arithmetic.
+
+\begin{table}[ht]
+\centering\small
+\caption{Maximum cut, tensor exponent and Zhou's upper bound.}\label{tab:comparisons}
+\begin{tabular}{@{}lrrl@{}}
+\toprule
+Weights in cyclic order & \(\mc\) & \(\Gamma=L_3\) & \(\Zhou\)\\
+\midrule
+\(1,1,1,1,1\) & 4 & \(49/12\) & \(25/6\)\\
+\(1,1,1,1,2\) & 5 & \(81/16\) & \([5.091751,5.091753]\)\\
+\(1,1,2,2,2\) & 7 & \(169/24\) & \(169/24\)\\
+\(1,2,1,2,2\) & 7 & \(7\) & \(7\)\\
+\(1,2,2,2,2\) & 8 & \(8\) & \(8\)\\
+\(2,2,2,2,3\) & 9 & \(64/7\) & \([9.232407,9.232409]\)\\
+\addlinespace
+\(1,1,1,1,1,1,1\) & 6 & \(121/20\) & \(49/8\)\\
+\(1,1,1,1,1,1,2\) & 7 & \(169/24\) & \([7.073222,7.073224]\)\\
+\(1,1,2,2,2,2,2\) & 11 & \(441/40\) & \(441/40\)\\
+\(1,2,1,2,2,2,2\) & 11 & \(11\) & \(11\)\\
+\(1,2,1,2,1,2,2\) & 10 & \(10\) & \(10\)\\
+\(1,2,2,2,2,2,2\) & 12 & \(12\) & \(12\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For dimensions \((4,4,4,4,8)\), the adjacent minimum edges give \(\Omega(7,2,2)=64/7\). The feasible shortest-path construction alone gives \(55/6\), exceeding the true exponent by \(1/42\). For an example outside the dyadic grid, dimensions \((6,9,7,7,7,7,9)\) satisfy the maximum-cut criterion. The resulting asymptotic rank is \(9^2\,7^4=194481\). The calculator checks this assertion using outward-rounded integer square roots and logarithms.
+
+\section{An extremal theorem for tree metrics}\label{sec:tree}
+
+The three-block bound has an interpretation independent of the cycle proof. Let \(W\) be a loopless finite undirected graph on at least two vertices, with nonnegative edge weights. Missing edges may be assigned weight zero. Define \(L_3(W)\) by maximizing \(\Omega\) of the three cross-block totals as before. Put
+\[
+ H(d)=\sum_{i<j}W_{ij}d_{ij},\qquad
+ N(d)=4\max_{\mu_i\ge0,\ \sum_i\mu_i=1}\sum_{i<j}\mu_i\mu_jd_{ij}.
+\]
+A tree pseudometric is the restriction of the path metric of a real tree to finitely many labeled sites, allowing coincidences.
+
+\begin{theorem}\label{thm:tree}
+For every \(W\), the maximum of \(H(d)\) over tree pseudometrics with \(N(d)\le1\) equals \(L_3(W)\). A spectral tree pseudometric attains this value.
+\end{theorem}
+\begin{proof}
+A three-point pseudometric is realized by a tripod. For a surjective three-block grouping, composition of grouping with a maximizing three-party spectral point is a spectral point on the original legs. Indeed grouping respects restrictions and products. For a direct sum, within each grouped leg the all-first and all-second blocks contain the whole tensor. The unused mixed coordinates can be removed and added back by restrictions. Thus grouping also respects direct sums up to equivalence. A grouping into two nonempty blocks is a flattening. These observations give \(H(d)=L_3(W)\) for some spectral tree pseudometric. The case \(W=0\) is immediate.
+
+Let \(K>0\) be the maximum over all normalized trees. Half the mass at each of two sites shows \(\diam d\le N(d)\). Reduced tree shapes spanning finitely many labels have finitely many combinatorial types. Their edge lengths lie in \([0,1]\) and zero lengths allow contractions. This proves existence of a maximizer. Rescale so \(N=1\). In the minimal spanning tree the leaves have labels. Move each nonleaf label to an endpoint of a leaf-to-leaf path through it. Its contribution to \(H\) is convex on the path. Some endpoint gives at least its old value. The set of available positions only shrinks, so \(N\) cannot increase. Merge labels occupying the same leaf. We have an optimal layout on distinct leaves, with positive edge lengths in its reduced tree.
+
+For an edge \(e\), let \(S_e\) be one side of its cut, \(p_e=\mu(S_e)\), \(\ell_e\) its length and \(c(S_e)\) the crossing weight of \(W\). Then
+\[
+ N=4\max_\mu\sum_e\ell_ep_e(1-p_e),\qquad H=\sum_e\ell_e c(S_e).
+\]
+The first objective is strictly concave on the leaf-mass simplex, by the positive pendant edges (the two-leaf case follows directly). The maximizing mass is unique. The derivative of \(N\) in \(\ell_e\) equals \(4p_e(1-p_e)\): difference quotients lie between the coefficients evaluated at the old and new maximizing masses, and compactness and uniqueness give convergence. The same argument gives the right derivative for an edge introduced at zero length by splitting a node. Since \(H-KN\) has a global maximum zero,
+\[
+ c(S_e)=4Kp_e(1-p_e),\qquad
+ c(S)\le4K\mu(S)(1-\mu(S))
+\]
+for any union \(S\) of incident branches at a node. Positive edges allow perturbations in both directions.
+
+If some edge separates mass \(1/2\), its cut has weight \(K\) and we are done. Otherwise choose a node whose branch masses are all at most \(1/2\). To see this, observe first that a leaf of mass \(p>1/2\) is impossible since shifting mass from it to any other leaf increases energy to first order by at least \((2p-1)\) times their distance. Starting at a node, move toward the unique branch of mass exceeding \(1/2\) whenever it exists. The walk cannot reverse an edge and terminates at the desired node. A terminal leaf would have mass at least \(1/2\).
+
+Write \(p_i\) for its branch masses and \(b_{ij}\) for the graph weight between branches \(i,j\). Apply the equality to individual branches and the inequality to their pairwise unions. This gives
+\[
+ b_{ij}=\tfrac12\{c(S_i)+c(S_j)-c(S_i\cup S_j)\}\ge4Kp_ip_j .
+\]
+Summing over \(j\ne i\) gives equality on both sides. Thus all these pairwise inequalities are equalities. Zero-mass branches have zero weight to other branches and may be absorbed. While at least four positive groups remain, merge the two smallest. Their sum is at most \(1/2\), and the identity \(b_{ij}=4Kp_ip_j\) persists. A half-mass group gives a cut of weight \(K\). Otherwise we arrive at three masses \(p\ge q\ge r>0\), \(p+q+r=1,\ p\le1/2\). Formula~\eqref{eq:rect-main} yields
+\[
+ \Omega(4Kpq,4Kpr,4Kqr)
+ =4Kp(1-p)+K(1-2p)^2=K .
+\]
+Their branches determine a three-block partition of the original graph. This proves \(K\le L_3(W)\).
+\end{proof}
+
+\section{Verification and reproducibility}\label{sec:verification}
+
+The companion archive contains the LaTeX source, the exact-weight calculator, the 29-row comparison table and the complete certificate data. File names below are relative to the extracted verification directory. A root box covers real parameters, including its boundary. At a bisection, both closed children are checked and their union equals the parent. At a terminal box the corresponding checker reconstructs an inequality from its endpoints or verifies a nonnegative rational linear combination of valid inequalities. Induction from the leaves proves the bound throughout the root. The reductions in the individual proof sections show why the chosen roots suffice. A search heuristic, where used, only chose a split, a test, or a list of multipliers.
+
+For a distance row containing a product \(xy\), an affine lower bound on \([l,u]\times[a,b]\) follows from \((x-l)(y-a)\ge0\) or \((u-x)(b-y)\ge0\). The opposite choices give upper bounds. After combining rows with nonnegative multipliers, the residual affine expression is maximized by choosing one endpoint per coordinate. The interval calculations use rational arithmetic or integer grids with outward rounding. The consecutive-contact pentagon checker uses checked 128-bit integer operations. Its supplied wrapper compiles with undefined-behavior checks and stops upon overflow. These conventions allow verification without a floating-point optimization solver.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}p{.20\linewidth}X@{}}
+\toprule
+Part of the proof & Verification directories or files\\
+\midrule
+Normalized total and diameter & \texttt{threshold}, \texttt{conditional\_nine}, and \texttt{adjacent} (the first includes the unbounded-total tree)\\
+Pentagon & \texttt{five\_disjoint}, \texttt{five\_consecutive}, \texttt{five\_isolated}, and the nonadjacent binary-family checker identified in Section~\ref{sec:five}\\
+Seven-cycle & \texttt{conditional\_seven}, \texttt{marked\_words}, \texttt{seven\_marked\_radius}, \texttt{seven\_polar}\\
+Nine-cycle & \texttt{general\_nine/check\_marked9\_parallel.py} with \texttt{nine-marked.json.gz}\\
+Examples & \texttt{comparisons/verify.py} verifies the sample table and the benchmark enclosure\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+From the source-project root run the following commands. The verification command extracts a frozen copy of the certificate archive into a temporary directory and invokes its aggregate verifier. The supplied README also gives commands for individual components.
+\begin{verbatim}
+python -B verify.py
+python -B cycle_bounds.py --dims 4 4 4 4 8
+python -B cycle_bounds.py --weights 1 3/2 2 7/4 1
+\end{verbatim}
+The checker requires Python 3.10 or later with assertions enabled. The consecutive-contact component also requires Clang, GCC or Zig with signed 128-bit integers and undefined-behavior instrumentation. The exact rectangular exponent, unweighted cycle theorem and spectral geometry theorems are cited inputs.
+
+The calculator evaluates rational logarithmic weights exactly. For a dimension which is not a power of two, it divides out the integer power of two, repeatedly squares an interval with outward rounding, and tests whether it has crossed 2 to determine the next binary logarithm digit. If a comparison is undecided it increases precision and retries. An integer which is not a power of two retains an odd prime factor under positive powering, so a finite exact comparison cannot land at that threshold. Monotonicity of \(\Gamma\) turns the two rational weight vectors into rigorous lower and upper bounds, and Proposition~\ref{prop:real} bounds their difference. Exact dimension inputs therefore require no assumption about the rationality of their logarithms.
+
+\begin{thebibliography}{9}
+
+\bibitem{BH}
+M. R. Bridson and A. Haefliger.
+\emph{Metric Spaces of Non-positive Curvature}.
+Grundlehren der mathematischen Wissenschaften, vol.~319, Springer, 1999.
+\href{https://doi.org/10.1007/978-3-662-12494-9}{doi:10.1007/978-3-662-12494-9}.
+
+\bibitem{Ptolemy}
+S. M. Buckley, K. Falk and D. J. Wraith.
+Ptolemaic spaces and CAT(0).
+\emph{Glasgow Mathematical Journal} \textbf{51} (2009), 301--314.
+\href{https://doi.org/10.1017/S0017089509004984}{doi:10.1017/S0017089509004984}.
+
+\bibitem{Jiang}
+W. Jiang.
+\emph{The Exact Asymptotic Rank Exponents of Cycle Graph Tensors}.
+Manuscript and verification data, 2026.
+\href{https://github.com/WenJ234/graph-tensor-asymptotic-rank/tree/7aeba08fd8765c651e7e2994d3e73a596ab64467/cn}{Version at commit \texttt{7aeba08f}}.
+
+\bibitem{Rect}
+OpenAI.
+\emph{The Matrix Multiplication Exponent Is Nine Fourths}.
+Preprint and accompanying formalization, 2026.
+\href{https://github.com/openai/math/blob/3344da59991ed94f9ba711217b29c1d760badfa6/lean/OAI/LinearAlgebra/SpectralBooks/ExactExponent.lean\#L43-L56}{Exact rectangular exponent, \texttt{ExactExponent.lean}, lines 43--56}.
+
+\bibitem{CAT}
+OpenAI.
+\emph{Euclidean Geometry in the Asymptotic Spectrum of Tensors}.
+Preprint, 2026, Corollary 3.4 and Theorem 4.3.
+\href{https://github.com/openai/math/blob/3344da59991ed94f9ba711217b29c1d760badfa6/preprints/Euclidean-geometry-in-the-asymptotic-spectrum-of-tensors-November-24-2026/paper.pdf}{Version at commit \texttt{3344da5}}.
+
+\bibitem{Strassen}
+V. Strassen.
+The asymptotic spectrum of tensors.
+\emph{Journal f\"ur die reine und angewandte Mathematik} \textbf{384} (1988), 102--152.
+\href{https://doi.org/10.1515/crll.1988.384.102}{doi:10.1515/crll.1988.384.102}.
+
+\bibitem{Zhou}
+H. Zhou.
+\emph{Asymptotic Rank of Weighted Graph Tensors via Completely Positive Bounds}.
+2026. \href{https://arxiv.org/html/2610.34273v3}{arXiv:2610.34273v3}.
+
+\end{thebibliography}
+
+\end{document}
