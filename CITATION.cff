@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "To cite the cycle graph tensors manuscript, use the preferred citation below. Cite the other manuscripts by their own titles and URLs."
+title: "Graph Tensor Asymptotic Rank: Manuscripts and Reproducibility Files"
+authors:
+  - family-names: "Jiang"
+    given-names: "Wen"
+url: "https://github.com/WenJ234/graph-tensor-asymptotic-rank"
+keywords:
+  - "graph tensors"
+  - "asymptotic tensor rank"
+  - "cycle graphs"
+  - "rectangular matrix multiplication"
+  - "algebraic complexity"
+preferred-citation:
+  type: unpublished
+  title: "The Exact Asymptotic Rank Exponents of Cycle Graph Tensors"
+  authors:
+    - family-names: "Jiang"
+      given-names: "Wen"
+  year: 2026
+  url: "https://github.com/WenJ234/graph-tensor-asymptotic-rank/blob/main/cn/cycle-graph-tensors-Wen-Jiang.pdf"
