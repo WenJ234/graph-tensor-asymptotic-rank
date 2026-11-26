@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "To cite the cycle graph tensors manuscript, use the preferred citation below. Cite the other manuscripts by their own titles and URLs."
+message: "To cite the cycle graph tensors manuscript, use the preferred citation below. Use references.bib for the separate weighted-cycle paper and the other manuscripts."
 title: "Graph Tensor Asymptotic Rank: Manuscripts and Reproducibility Files"
 authors:
   - family-names: "Jiang"
@@ -9,6 +9,9 @@ keywords:
   - "graph tensors"
   - "asymptotic tensor rank"
   - "cycle graphs"
+  - "weighted cycle tensors"
+  - "unequal edge weights"
+  - "nonuniform edge dimensions"
   - "rectangular matrix multiplication"
   - "algebraic complexity"
 preferred-citation:
