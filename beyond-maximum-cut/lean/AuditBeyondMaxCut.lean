@@ -1,0 +1,13 @@
+import BeyondMaxCutAudit
+
+#print axioms WenJ.GraphTensor.MaxCut.maxCutWeight_le_graph_exponent
+#print axioms WenJ.GraphTensor.MaxCut.bipartite_graph_rank_of_coloring
+#print axioms WheelVerification.graph_groupClass_eq_triangle
+#print axioms WheelVerification.graph_three_block_rank_lower
+#print axioms WenJ.GraphTensor.MaxCut.complete_graph_exponent_exact
+#print axioms WenJ.GraphTensor.MaxCut.odd_cycle_paper_lower_and_actual_cut
+#print axioms WenJ.GraphTensor.MaxCut.exists_maximal_part
+#print axioms WenJ.GraphTensor.MaxCut.multipartite_exponent_and_maxCut
+#print axioms WenJ.GraphTensor.MaxCut.price_ratio_le_maxCut
+#print axioms WenJ.GraphTensor.MaxCut.real_line_price_ratio_isGreatest
+#print axioms WenJ.GraphTensor.MaxCut.five_cycle_maxcut_paper_bounds

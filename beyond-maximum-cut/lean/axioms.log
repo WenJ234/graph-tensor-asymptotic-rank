@@ -1,0 +1,13 @@
+'WenJ.GraphTensor.MaxCut.maxCutWeight_le_graph_exponent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WenJ.GraphTensor.MaxCut.bipartite_graph_rank_of_coloring' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WheelVerification.graph_groupClass_eq_triangle' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WheelVerification.graph_three_block_rank_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WenJ.GraphTensor.MaxCut.complete_graph_exponent_exact' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WenJ.GraphTensor.MaxCut.odd_cycle_paper_lower_and_actual_cut' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'WenJ.GraphTensor.MaxCut.exists_maximal_part' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WenJ.GraphTensor.MaxCut.multipartite_exponent_and_maxCut' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WenJ.GraphTensor.MaxCut.price_ratio_le_maxCut' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WenJ.GraphTensor.MaxCut.real_line_price_ratio_isGreatest' depends on axioms: [propext, Classical.choice, Quot.sound]
+'WenJ.GraphTensor.MaxCut.five_cycle_maxcut_paper_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
